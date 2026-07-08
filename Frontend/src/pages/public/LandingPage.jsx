@@ -121,15 +121,18 @@ export default function LandingPage() {
 
           {/* Nav links */}
           <nav className="hidden md:flex items-center gap-8">
-            {['Solution', 'How It Works', 'For Departments', 'Citizen Portal'].map(link => (
-              <a
-                key={link}
-                href="#"
-                className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100 font-medium transition-colors"
-              >
-                {link}
-              </a>
-            ))}
+            <a href="#features" className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-medium transition-colors">
+              Solution
+            </a>
+            <a href="#features" className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-medium transition-colors">
+              How It Works
+            </a>
+            <a href="#departments" className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-medium transition-colors">
+              For Departments
+            </a>
+            <Link to={ROUTES.CITIZEN} className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-medium transition-colors">
+              Citizen Portal
+            </Link>
           </nav>
 
           {/* CTA */}
@@ -247,7 +250,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Features section ── */}
-      <section className="bg-slate-50 dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700 py-20">
+      <section id="features" className="bg-slate-50 dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100">Everything your city needs, in one place</h2>
@@ -284,7 +287,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── CTA strip ── */}
-      <section className="bg-primary-700 py-16">
+      <section id="departments" className="bg-primary-700 py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             Ready to coordinate smarter?

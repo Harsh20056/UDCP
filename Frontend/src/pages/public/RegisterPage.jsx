@@ -49,26 +49,26 @@ function GISBackground() {
 
 const STAFF_ROLES = [
   { value: 'department_planner', label: 'Department Planner' },
-  { value: 'approver',           label: 'Approver' },
-  { value: 'field_engineer',     label: 'Field Engineer' },
+  { value: 'approver', label: 'Approver' },
+  { value: 'field_engineer', label: 'Field Engineer' },
 ];
 
 export default function RegisterPage() {
   const navigate = useNavigate();
 
-  const [tab, setTab]               = useState('citizen'); // 'citizen' | 'staff'
-  const [showPw, setShowPw]         = useState(false);
+  const [tab, setTab] = useState('citizen'); // 'citizen' | 'staff'
+  const [showPw, setShowPw] = useState(false);
   const [showConfirmPw, setShowConfirmPw] = useState(false);
-  const [loading, setLoading]       = useState(false);
-  const [error, setError]           = useState('');
-  const [success, setSuccess]       = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   // Form fields
-  const [name, setName]             = useState('');
-  const [email, setEmail]           = useState('');
-  const [password, setPassword]     = useState('');
-  const [confirmPw, setConfirmPw]   = useState('');
-  const [role, setRole]             = useState('department_planner');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPw, setConfirmPw] = useState('');
+  const [role, setRole] = useState('department_planner');
   const [department, setDepartment] = useState('');
 
   const handleSubmit = async (e) => {
@@ -146,32 +146,30 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-slate-100 dark:bg-slate-700">
+    <div className="min-h-screen w-full flex bg-slate-50 dark:bg-slate-950">
       {/* ── Left panel ──────────────────────────────────────────────────────── */}
-      <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 relative overflow-hidden bg-slate-100 dark:bg-slate-700">
+      <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 relative overflow-hidden bg-gradient-to-b from-[#0b3a60] to-[#02182b] text-white border-r border-[#082a46] dark:border-slate-800">
         <GISBackground />
 
         {/* Logo */}
-        <div className="relative flex items-center gap-2 z-10">
-          <div className="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center shadow-sm">
-            <Building2 className="w-4 h-4 text-primary-700" />
-          </div>
-          <span className="font-bold text-slate-900 dark:text-slate-100">UDCP</span>
-        </div>
+        <Link to={ROUTES.HOME} className="relative z-10 flex items-center gap-2 hover:opacity-85 transition-opacity">
+          <Building2 className="w-5 h-5 text-blue-400" />
+          <span className="text-sm font-bold tracking-widest text-white">UDCP</span>
+        </Link>
 
         {/* Bottom text */}
         <div className="relative z-10">
-          <h1 className="text-4xl font-black text-slate-900 dark:text-slate-100 leading-tight mb-3">
+          <h1 className="text-4xl font-bold text-white leading-tight mb-3">
             Unified Department<br />Coordination Platform
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-xs">
+          <p className="text-blue-100/80 text-sm leading-relaxed max-w-xs">
             Connecting civic departments and citizens for streamlined urban operations and planning.
           </p>
         </div>
       </div>
 
       {/* ── Right panel ─────────────────────────────────────────────────────── */}
-      <div className="flex-1 flex items-center justify-center p-6 lg:p-12">
+      <div className="flex-1 flex items-center justify-center p-6 lg:p-12 bg-slate-50 dark:bg-slate-950">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -179,24 +177,23 @@ export default function RegisterPage() {
           className="w-full max-w-lg"
         >
           {/* Card */}
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-modal p-8">
+          <div className="bg-white dark:bg-slate-900 rounded-[16px] shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 dark:border-slate-800/80 p-8">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">Create an Account</h2>
 
             {/* ── Tabs ── */}
             <div className="flex bg-slate-100 dark:bg-slate-700 rounded-xl p-1 mb-6">
               {[
                 { key: 'citizen', label: 'Citizen' },
-                { key: 'staff',   label: 'Department Staff' },
+                { key: 'staff', label: 'Department Staff' },
               ].map(t => (
                 <button
                   key={t.key}
                   type="button"
                   onClick={() => { setTab(t.key); setError(''); }}
-                  className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
-                    tab === t.key
+                  className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${tab === t.key
                       ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm'
                       : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 dark:text-slate-300'
-                  }`}
+                    }`}
                 >
                   {t.label}
                 </button>

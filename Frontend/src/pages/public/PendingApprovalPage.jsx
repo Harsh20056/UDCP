@@ -15,10 +15,11 @@ export default function PendingApprovalPage() {
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="flex items-center gap-2 mb-10"
       >
-        <Landmark className="w-6 h-6 text-primary-700" />
-        <span className="text-lg font-bold text-primary-700 tracking-wider">UDCP</span>
+        <Link to={ROUTES.HOME} className="flex items-center gap-2 mb-10 hover:opacity-80 transition-all">
+          <Landmark className="w-6 h-6 text-primary-700" />
+          <span className="text-lg font-bold text-primary-700 tracking-wider">UDCP</span>
+        </Link>
       </motion.div>
 
       {/* Card */}
