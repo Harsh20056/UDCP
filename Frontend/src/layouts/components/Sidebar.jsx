@@ -24,20 +24,19 @@ export default function Sidebar({ collapsed = false }) {
   return (
     <aside
       className={cn(
-        'fixed left-0 top-0 h-full flex flex-col z-sidebar transition-all duration-300',
+        'fixed left-0 top-0 h-full flex flex-col z-sidebar transition-all duration-300 bg-white dark:bg-[#0B1929] border-r border-slate-200 dark:border-white/10 shadow-[2px_0_12px_rgba(0,0,0,0.05)] dark:shadow-[2px_0_12px_rgba(0,0,0,0.3)]',
         collapsed ? 'w-16' : 'w-60',
       )}
-      style={{ backgroundColor: '#0B1929', boxShadow: '2px 0 12px rgba(0,0,0,0.3)' }}
     >
       {/* ── Logo / Brand ── */}
-      <div className="flex items-center gap-3 px-4 py-5 border-b border-white/10">
+      <div className="flex items-center gap-3 px-4 py-5 border-b border-slate-100 dark:border-white/10">
         <div className="w-8 h-8 rounded-lg bg-primary-600 flex items-center justify-center flex-shrink-0">
           <Building2 className="w-4 h-4 text-white" />
         </div>
         {!collapsed && (
           <div className="min-w-0">
-            <p className="text-white font-bold text-sm tracking-wide leading-none">UDCP</p>
-            <p className="text-slate-400 text-xs mt-0.5 leading-none">Smart City Hub</p>
+            <p className="text-slate-900 dark:text-white font-bold text-sm tracking-wide leading-none">UDCP</p>
+            <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 leading-none">Smart City Hub</p>
           </div>
         )}
       </div>
@@ -70,7 +69,7 @@ export default function Sidebar({ collapsed = false }) {
                   'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 cursor-pointer select-none group relative',
                   isActive
                     ? 'bg-primary-600 text-white'
-                    : 'text-slate-400 hover:bg-white dark:bg-slate-900/10 hover:text-white',
+                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white',
                 )
               }
             >
@@ -78,16 +77,16 @@ export default function Sidebar({ collapsed = false }) {
                 <>
                   {/* Active indicator bar */}
                   {isActive && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-white dark:bg-slate-900 rounded-r-full" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-white rounded-r-full" />
                   )}
-                  <Icon className={cn('w-4 h-4 flex-shrink-0', isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-white')} />
+                  <Icon className={cn('w-4 h-4 flex-shrink-0', isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white')} />
                   {!collapsed && (
                     <span className="flex-1 min-w-0 truncate">{item.label}</span>
                   )}
                   {!collapsed && badgeCount > 0 && (
                     <span className={cn(
                       'inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1 rounded-full text-xs font-bold',
-                      isActive ? 'bg-white dark:bg-slate-900 text-primary-700' : 'bg-red-500 text-white'
+                      isActive ? 'bg-white text-primary-700' : 'bg-red-500 text-white'
                     )}>
                       {badgeCount > 99 ? '99+' : badgeCount}
                     </span>
@@ -100,21 +99,21 @@ export default function Sidebar({ collapsed = false }) {
       </nav>
 
       {/* ── User Profile ── */}
-      <div className="p-3 border-t border-white/10">
+      <div className="p-3 border-t border-slate-100 dark:border-white/10">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-primary-700 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
             {getInitials(user?.name)}
           </div>
           {!collapsed && (
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-medium truncate leading-none">{user?.name}</p>
-              <p className="text-slate-400 text-xs truncate mt-0.5 leading-none capitalize">{user?.designation || user?.role?.replace('_', ' ')}</p>
+              <p className="text-slate-900 dark:text-white text-sm font-medium truncate leading-none">{user?.name}</p>
+              <p className="text-slate-500 dark:text-slate-400 text-xs truncate mt-0.5 leading-none capitalize">{user?.designation || user?.role?.replace('_', ' ')}</p>
             </div>
           )}
           {!collapsed && (
             <button
               onClick={logout}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white dark:bg-slate-900/10 transition-colors duration-150"
+              className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10 transition-colors duration-150"
               title="Sign out"
             >
               <LogOut className="w-4 h-4" />

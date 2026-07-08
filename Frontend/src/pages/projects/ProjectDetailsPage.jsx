@@ -35,19 +35,20 @@ export default function ProjectDetailsPage() {
       try {
         setLoading(true);
         // Fetch project
-        const projRes = await axiosInstance.get(ENDPOINTS.PROJECT_DETAILS(id));
-        setProject(projRes.data.data);
+        const projRes = await axiosInstance.get(ENDPOINTS.PROJECT(id));
+        const projectData = projRes.data;
+        setProject(projectData);
         
         // Fetch related conflicts if any
-        if (projRes.data.data.conflictIds?.length > 0) {
+        if (projectData.conflictIds?.length > 0) {
           const confRes = await axiosInstance.get(ENDPOINTS.CONFLICTS);
-          const related = confRes.data.data.filter(c => projRes.data.data.conflictIds.includes(c.id));
+          const related = confRes.data.data.filter(c => projectData.conflictIds.includes(c.id));
           setConflicts(related);
         }
 
         // Fetch audit logs
         const auditRes = await axiosInstance.get(ENDPOINTS.AUDIT_LOGS, { params: { targetId: id } });
-        setAuditLogs(auditRes.data.data);
+        setAuditLogs(auditRes.data.data || []);
 
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load project details');
@@ -65,7 +66,7 @@ export default function ProjectDetailsPage() {
   const canDelete = user && can(user.role, 'project', 'delete') && (user.role === 'admin' || user.department === project.department);
 
   // High risk calculation for the donut
-  const maxRisk = conflicts.length > 0 ? Math.max(...conflicts.map(c => c.riskScore)) : 0;
+  const maxRisk = conflicts.length > 0 ? Math.max(...conflicts.map(c => c.conflictScore)) : 0;
   const riskColor = maxRisk >= 85 ? '#EF4444' : maxRisk >= 60 ? '#F97316' : maxRisk >= 30 ? '#F59E0B' : '#10B981';
   
   // Timeline steps based on current status
@@ -282,7 +283,7 @@ export default function ProjectDetailsPage() {
                   <div>
                     <p className="text-xs font-semibold text-slate-400 uppercase mb-1.5">Departments Involved</p>
                     <div className="flex flex-wrap gap-1.5">
-                      {[...new Set(conflicts.flatMap(c => c.partiesInvolved))].filter(d => d !== project.department).map(d => (
+                      {[...new Set(conflicts.flatMap(c => c.departmentsInvolved))].filter(d => d !== project.department).map(d => (
                         <DepartmentTag key={d} department={d} size="sm" />
                       ))}
                     </div>
@@ -325,7 +326,7 @@ export default function ProjectDetailsPage() {
                   
                   <div className="pl-4">
                     <p className="text-sm text-slate-800 dark:text-slate-200 leading-snug">
-                      <span className="font-semibold">{log.userEmail}</span>{' '}
+                      <span className="font-semibold">{log.userName}</span>{' '}
                       <span dangerouslySetInnerHTML={{ __html: log.details }} />
                     </p>
                     <p className="text-xs text-slate-400 mt-1">{timeAgo(log.timestamp)}</p>
