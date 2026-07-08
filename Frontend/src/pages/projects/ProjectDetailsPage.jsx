@@ -65,6 +65,13 @@ export default function ProjectDetailsPage() {
   const canEdit = user && can(user.role, 'project', 'edit') && (user.role === 'admin' || user.department === project.department);
   const canDelete = user && can(user.role, 'project', 'delete') && (user.role === 'admin' || user.department === project.department);
 
+  // Safe coordinate array extraction fallback
+  const projectCoords = project.coordinates && project.coordinates.length === 2 && !isNaN(project.coordinates[0])
+    ? project.coordinates
+    : project.location && typeof project.location.lat === 'number' && typeof project.location.lng === 'number'
+      ? [project.location.lat, project.location.lng]
+      : MAP_CONFIG.CENTER;
+
   // High risk calculation for the donut
   const maxRisk = conflicts.length > 0 ? Math.max(...conflicts.map(c => c.conflictScore)) : 0;
   const riskColor = maxRisk >= 85 ? '#EF4444' : maxRisk >= 60 ? '#F97316' : maxRisk >= 30 ? '#F59E0B' : '#10B981';
@@ -214,7 +221,7 @@ export default function ProjectDetailsPage() {
             </div>
             <div className="flex-1 w-full bg-slate-100 dark:bg-slate-700 z-0 relative">
               <MapContainer 
-                center={project.coordinates} 
+                center={projectCoords} 
                 zoom={14} 
                 className="w-full h-full"
                 zoomControl={false}
@@ -224,7 +231,7 @@ export default function ProjectDetailsPage() {
                   url={MAP_CONFIG.TILE_URL}
                 />
                 <CircleMarker 
-                  center={project.coordinates}
+                  center={projectCoords}
                   radius={12}
                   fillColor="#3B82F6"
                   color="#ffffff"
@@ -236,7 +243,7 @@ export default function ProjectDetailsPage() {
                 {/* Conflict zone representation if any */}
                 {conflicts.length > 0 && (
                   <CircleMarker
-                    center={project.coordinates}
+                    center={projectCoords}
                     radius={40}
                     fillColor="#EF4444"
                     color="#EF4444"

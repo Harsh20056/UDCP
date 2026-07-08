@@ -439,13 +439,8 @@ export default function ApprovalsPage() {
                     
                     <button
                       onClick={() => handleReject(approval)}
-                      disabled={submittingId === approval.id || !noteValue.trim()}
-                      className={`flex-1 border font-semibold text-xs py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-1.5 h-10 ${
-                        !noteValue.trim()
-                          ? 'border-slate-200 text-slate-300 cursor-not-allowed bg-slate-50 dark:bg-slate-800/20 dark:border-slate-800'
-                          : 'border-red-300 text-red-600 hover:bg-red-50 dark:border-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40'
-                      }`}
-                      title={!noteValue.trim() ? "decision comments are required for rejection" : ""}
+                      disabled={submittingId === approval.id}
+                      className="flex-1 border border-red-200 text-red-650 hover:bg-red-50 dark:border-red-900/30 dark:text-red-400 dark:hover:bg-red-950/20 font-semibold text-xs py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-1.5 h-10"
                     >
                       <X className="w-3.5 h-3.5" />
                       Reject

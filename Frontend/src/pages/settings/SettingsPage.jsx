@@ -192,10 +192,10 @@ export default function SettingsPage() {
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 shadow-card flex flex-col gap-1">
             <button 
               onClick={() => setActiveTab('PROFILE')}
-              className={`flex items-center gap-3 w-full text-left px-4 py-2.5 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center gap-3 w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${
                 activeTab === 'PROFILE'
                   ? 'bg-slate-50 dark:bg-slate-800/80 text-primary dark:text-primary-400 font-extrabold'
-                  : 'text-slate-550 dark:text-slate-400 hover:bg-slate-50/50 dark:hover:bg-slate-800/30'
+                  : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50/50 dark:hover:bg-slate-800/30'
               }`}
             >
               <User className="w-4 h-4" />
@@ -204,10 +204,10 @@ export default function SettingsPage() {
 
             <button 
               onClick={() => setActiveTab('NOTIFICATIONS')}
-              className={`flex items-center gap-3 w-full text-left px-4 py-2.5 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center gap-3 w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${
                 activeTab === 'NOTIFICATIONS'
                   ? 'bg-slate-50 dark:bg-slate-800/80 text-primary dark:text-primary-400 font-extrabold'
-                  : 'text-slate-550 dark:text-slate-400 hover:bg-slate-50/50 dark:hover:bg-slate-800/30'
+                  : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50/50 dark:hover:bg-slate-800/30'
               }`}
             >
               <Bell className="w-4 h-4" />
@@ -219,17 +219,17 @@ export default function SettingsPage() {
                 <div className="h-px bg-slate-100 dark:bg-slate-800 my-1" />
                 <button 
                   onClick={() => setActiveTab('USER_MGMT')}
-                  className={`flex items-center justify-between gap-3 w-full text-left px-4 py-2.5 rounded-lg text-xs font-bold transition-all relative ${
+                  className={`flex items-center justify-between gap-3 w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all relative ${
                     activeTab === 'USER_MGMT'
                       ? 'bg-slate-50 dark:bg-slate-800/80 text-primary dark:text-primary-400 font-extrabold'
-                      : 'text-slate-550 dark:text-slate-400 hover:bg-slate-50/50 dark:hover:bg-slate-800/30'
+                      : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50/50 dark:hover:bg-slate-800/30'
                   }`}
                 >
                   <span className="flex items-center gap-3">
                     <Group className="w-4 h-4" />
                     User Approvals
                   </span>
-                  <span className="text-[8px] bg-primary text-white px-1.5 py-0.25 rounded font-bold uppercase tracking-wide">
+                  <span className="text-[10px] bg-primary text-white px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">
                     Admin
                   </span>
                 </button>
@@ -253,58 +253,58 @@ export default function SettingsPage() {
                 </div>
                 <div className="space-y-1.5 text-center sm:text-left">
                   <div className="flex flex-wrap gap-1.5 justify-center sm:justify-start">
-                    <span className="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-[10px] font-bold text-slate-650 dark:text-slate-350">
+                    <span className="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs font-bold text-slate-650 dark:text-slate-350">
                       {ROLE_LABELS[user?.role]}
                     </span>
                     {user?.department && (
-                      <span className="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-[10px] font-bold text-slate-650 dark:text-slate-350">
+                      <span className="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs font-bold text-slate-650 dark:text-slate-350">
                         {user.department}
                       </span>
                     )}
                   </div>
-                  <p className="text-2xs text-slate-400">Timezone: Asia/Kolkata (IST)</p>
+                  <p className="text-xs text-slate-500">Timezone: Asia/Kolkata (IST)</p>
                 </div>
               </div>
 
               <form onSubmit={handleSaveProfile} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-550 dark:text-slate-450">Full Name</label>
+                    <label className="text-sm font-semibold text-slate-650 dark:text-slate-400">Full Name</label>
                     <input 
                       type="text" 
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="w-full h-9 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs text-slate-800 dark:text-slate-150 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                      className="w-full h-10 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-550 dark:text-slate-450">Email Address (Read-only)</label>
+                    <label className="text-sm font-semibold text-slate-650 dark:text-slate-400">Email Address (Read-only)</label>
                     <input 
                       type="email" 
                       value={user?.email} 
                       readonly 
-                      className="w-full h-9 px-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-slate-400 cursor-not-allowed outline-none"
+                      className="w-full h-10 px-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-500 cursor-not-allowed outline-none"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-550 dark:text-slate-450">Phone Number</label>
+                    <label className="text-sm font-semibold text-slate-650 dark:text-slate-400">Phone Number</label>
                     <input 
                       type="tel" 
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      className="w-full h-9 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs text-slate-800 dark:text-slate-150 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                      className="w-full h-10 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-550 dark:text-slate-450">Designation / Role Title</label>
+                    <label className="text-sm font-semibold text-slate-650 dark:text-slate-400">Designation / Role Title</label>
                     <input 
                       type="text" 
                       value={designation}
                       onChange={(e) => setDesignation(e.target.value)}
-                      className="w-full h-9 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs text-slate-800 dark:text-slate-150 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                      className="w-full h-10 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
                     />
                   </div>
                 </div>
@@ -335,9 +335,9 @@ export default function SettingsPage() {
                 <div className="space-y-6">
                   {/* Channels block */}
                   <div className="space-y-3">
-                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Channels</h3>
+                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Active Channels</h3>
                     <div className="space-y-2">
-                      <label className="flex items-center gap-3 bg-slate-50/50 dark:bg-slate-950/20 p-3 rounded-lg border border-slate-100 dark:border-slate-850 cursor-pointer">
+                      <label className="flex items-center gap-3 bg-slate-50/50 dark:bg-slate-950/20 p-3 rounded-lg border border-slate-100 dark:border-slate-800 cursor-pointer">
                         <input 
                           type="checkbox" 
                           checked={prefs.email}
@@ -345,12 +345,12 @@ export default function SettingsPage() {
                           className="w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary/20 cursor-pointer"
                         />
                         <div>
-                          <p className="text-xs font-bold text-slate-700 dark:text-slate-350">Email Notifications</p>
-                          <p className="text-[10px] text-slate-450 mt-0.5">Receive digests, conflict overlap alerts, and approvals summaries.</p>
+                          <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Email Notifications</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Receive digests, conflict overlap alerts, and approvals summaries.</p>
                         </div>
                       </label>
 
-                      <label className="flex items-center gap-3 bg-slate-50/50 dark:bg-slate-950/20 p-3 rounded-lg border border-slate-100 dark:border-slate-850 cursor-pointer">
+                      <label className="flex items-center gap-3 bg-slate-50/50 dark:bg-slate-950/20 p-3 rounded-lg border border-slate-100 dark:border-slate-800 cursor-pointer">
                         <input 
                           type="checkbox" 
                           checked={prefs.sms}
@@ -358,8 +358,8 @@ export default function SettingsPage() {
                           className="w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary/20 cursor-pointer"
                         />
                         <div>
-                          <p className="text-xs font-bold text-slate-700 dark:text-slate-350">SMS Text Dispatch</p>
-                          <p className="text-[10px] text-slate-450 mt-0.5">Urgent notifications for critical road closures and immediate overlaps.</p>
+                          <p className="text-sm font-bold text-slate-700 dark:text-slate-300">SMS Text Dispatch</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Urgent notifications for critical road closures and immediate overlaps.</p>
                         </div>
                       </label>
                     </div>
@@ -367,12 +367,12 @@ export default function SettingsPage() {
 
                   {/* Rules block */}
                   <div className="space-y-3">
-                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Subscription Categories</h3>
+                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Subscription Categories</h3>
                     <div className="space-y-2">
-                      <label className="flex items-center justify-between p-2.5 border-b border-slate-100 dark:border-slate-800/80 cursor-pointer">
+                      <label className="flex items-center justify-between p-2.5 border-b border-slate-100 dark:border-slate-850 cursor-pointer">
                         <div>
-                          <p className="text-xs font-semibold text-slate-750 dark:text-slate-300">Spatial Conflict Overlaps</p>
-                          <p className="text-[10px] text-slate-400 mt-0.5">Immediate dispatches when automated mapping tools detect overlaps.</p>
+                          <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Spatial Conflict Overlaps</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Immediate dispatches when automated mapping tools detect overlaps.</p>
                         </div>
                         <input 
                           type="checkbox" 
@@ -382,10 +382,10 @@ export default function SettingsPage() {
                         />
                       </label>
 
-                      <label className="flex items-center justify-between p-2.5 border-b border-slate-100 dark:border-slate-800/80 cursor-pointer">
+                      <label className="flex items-center justify-between p-2.5 border-b border-slate-100 dark:border-slate-850 cursor-pointer">
                         <div>
-                          <p className="text-xs font-semibold text-slate-750 dark:text-slate-300">Review &amp; Approval Updates</p>
-                          <p className="text-[10px] text-slate-400 mt-0.5">Stage progression updates on submitted project files.</p>
+                          <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Review &amp; Approval Updates</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Stage progression updates on submitted project files.</p>
                         </div>
                         <input 
                           type="checkbox" 
@@ -397,8 +397,8 @@ export default function SettingsPage() {
 
                       <label className="flex items-center justify-between p-2.5 cursor-pointer">
                         <div>
-                          <p className="text-xs font-semibold text-slate-750 dark:text-slate-300">General Project Milestones</p>
-                          <p className="text-[10px] text-slate-400 mt-0.5">Updates on other departments starting/ending operations on scheduled segment routes.</p>
+                          <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">General Project Milestones</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Updates on other departments starting/ending operations on scheduled segment routes.</p>
                         </div>
                         <input 
                           type="checkbox" 
@@ -436,7 +436,7 @@ export default function SettingsPage() {
               ) : pendingUsers.length === 0 ? (
                 <div className="py-12 text-center text-slate-500">
                   <CheckSquare className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                  <p className="font-semibold text-slate-650 dark:text-slate-400 text-xs">No pending registration requests.</p>
+                  <p className="font-semibold text-slate-600 dark:text-slate-400 text-sm">No pending registration requests.</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -450,12 +450,12 @@ export default function SettingsPage() {
                           <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">
                             {pUser.name}
                           </h4>
-                          <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-350 px-1.5 py-0.25 rounded text-[9px] font-bold">
+                          <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded text-xs font-bold">
                             {pUser.department}
                           </span>
                         </div>
                         
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-y-1 gap-x-4 text-slate-500 dark:text-slate-400 text-[11px]">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-y-1 gap-x-4 text-slate-500 dark:text-slate-400 text-xs">
                           <span className="flex items-center gap-1">
                             <Mail className="w-3.5 h-3.5" />
                             {pUser.email}
@@ -475,14 +475,14 @@ export default function SettingsPage() {
                         <button
                           onClick={() => handleRejectUser(pUser.id)}
                           disabled={actioningUserId === pUser.id}
-                          className="px-3 py-1.5 border border-red-200 text-red-650 hover:bg-red-50 dark:border-red-900/30 dark:text-red-400 dark:hover:bg-red-950/20 rounded-lg text-xs font-semibold"
+                          className="px-3 py-1.5 border border-red-200 text-red-650 hover:bg-red-50 dark:border-red-900/30 dark:text-red-400 dark:hover:bg-red-950/20 rounded-lg text-sm font-semibold"
                         >
                           Reject
                         </button>
                         <button
                           onClick={() => handleApproveUser(pUser.id)}
                           disabled={actioningUserId === pUser.id}
-                          className="px-3 py-1.5 bg-primary text-white hover:bg-primary/90 rounded-lg text-xs font-semibold shadow-sm"
+                          className="px-3 py-1.5 bg-primary text-white hover:bg-primary/90 rounded-lg text-sm font-semibold shadow-sm"
                         >
                           Approve Staff
                         </button>

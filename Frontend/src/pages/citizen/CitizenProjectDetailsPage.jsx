@@ -85,7 +85,7 @@ export default function CitizenProjectDetailsPage() {
 
         <div className="flex items-center gap-2">
           {isRoadClosure ? (
-            <span className="bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded text-[10px] font-bold">
+            <span className="bg-red-50 text-red-700 dark:bg-red-950/20 dark:text-red-400 border border-red-200 dark:border-red-900/30 px-2 py-0.5 rounded text-xs font-bold">
               Road Closure Active
             </span>
           ) : (
@@ -100,28 +100,28 @@ export default function CitizenProjectDetailsPage() {
         {/* Core fields info row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pb-6 border-b border-slate-100 dark:border-slate-800/60">
           <div className="space-y-1">
-            <span className="text-[10px] text-slate-400 uppercase font-semibold">Executing Sector</span>
+            <span className="text-xs text-slate-400 uppercase font-bold">Executing Sector</span>
             <div className="mt-0.5"><DepartmentTag department={project.department} size="xs" dot={true} /></div>
           </div>
           
           <div className="space-y-1">
-            <span className="text-[10px] text-slate-400 uppercase font-semibold">Allocated Budget</span>
-            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-0.5">
+            <span className="text-xs text-slate-400 uppercase font-bold">Allocated Budget</span>
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5">
               {formatCurrencyShort(project.budget)}
             </p>
           </div>
 
           <div className="space-y-1">
-            <span className="text-[10px] text-slate-400 uppercase font-semibold">Start Schedule</span>
-            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-0.5 flex items-center gap-1">
+            <span className="text-xs text-slate-400 uppercase font-bold">Start Schedule</span>
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5 flex items-center gap-1">
               <Calendar className="w-3.5 h-3.5 text-slate-400" />
               {new Date(project.startDate).toLocaleDateString()}
             </p>
           </div>
 
           <div className="space-y-1">
-            <span className="text-[10px] text-slate-400 uppercase font-semibold">Target Completion</span>
-            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-0.5 flex items-center gap-1">
+            <span className="text-xs text-slate-400 uppercase font-bold">Target Completion</span>
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5 flex items-center gap-1">
               <Clock className="w-3.5 h-3.5 text-slate-400" />
               {new Date(project.endDate).toLocaleDateString()}
             </p>
@@ -131,7 +131,7 @@ export default function CitizenProjectDetailsPage() {
         {/* Description */}
         <div className="space-y-2">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Project Description</h3>
-          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+          <p className="text-sm text-slate-650 dark:text-slate-400 leading-relaxed">
             {project.description}
           </p>
         </div>
@@ -160,9 +160,11 @@ export default function CitizenProjectDetailsPage() {
             <MapPin className="w-3.5 h-3.5 text-slate-400" />
             Location Details
           </h3>
-          <div className="p-3 border border-slate-200 dark:border-slate-800 rounded-lg bg-slate-50/20 text-xs text-slate-700 dark:text-slate-350 leading-normal">
+          <div className="p-3 border border-slate-200 dark:border-slate-800 rounded-lg bg-slate-50/20 text-sm text-slate-700 dark:text-slate-200 leading-normal">
             <p><strong>Address:</strong> {project.location?.address || 'Bhopal Central Segment'}</p>
-            <p className="mt-1 text-[10px] text-slate-400">Coordinates: {project.location?.coordinates?.join(', ') || 'N/A'}</p>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              Coordinates: {project.coordinates ? project.coordinates.join(', ') : (project.location?.lat && project.location?.lng ? `${project.location.lat}, ${project.location.lng}` : 'N/A')}
+            </p>
           </div>
         </div>
 
@@ -171,14 +173,14 @@ export default function CitizenProjectDetailsPage() {
           <div className="flex items-center gap-2">
             <HelpCircle className="w-5 h-5 text-slate-400 shrink-0" />
             <div className="text-left">
-              <p className="text-xs font-semibold text-slate-750 dark:text-slate-300">Have questions or complaints?</p>
-              <p className="text-[10px] text-slate-400">Submit public feedback directly to the coordinating officers.</p>
+              <p className="text-sm font-semibold text-slate-750 dark:text-slate-200">Have questions or complaints?</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Submit public feedback directly to the coordinating officers.</p>
             </div>
           </div>
 
           <button
             onClick={() => navigate(`/citizen/feedback?projectId=${project.id}`)}
-            className="w-full sm:w-auto bg-primary text-white text-xs font-semibold py-2 px-5 rounded-lg hover:bg-primary/95 shadow transition-colors flex items-center justify-center gap-1.5"
+            className="w-full sm:w-auto bg-primary text-white text-sm font-semibold py-2 px-5 rounded-lg hover:bg-primary/95 shadow transition-colors flex items-center justify-center gap-1.5"
           >
             <MessageSquare className="w-4 h-4" />
             Submit Feedback on Project

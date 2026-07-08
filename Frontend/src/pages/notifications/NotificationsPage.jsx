@@ -199,7 +199,7 @@ export default function NotificationsPage() {
                         <h3 className={`text-sm font-semibold text-slate-800 dark:text-slate-200 truncate ${!n.read ? 'font-bold' : ''}`}>
                           {n.title}
                         </h3>
-                        <span className="text-[10px] text-slate-400 whitespace-nowrap mt-0.5">
+                        <span className="text-xs text-slate-400 whitespace-nowrap mt-0.5">
                           {timeAgo(n.createdAt)}
                         </span>
                       </div>
@@ -219,7 +219,7 @@ export default function NotificationsPage() {
           <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-card">
             <div className="p-4 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/60">
               <h3 className="font-bold text-sm text-slate-800 dark:text-slate-100">Simulated Communications Log</h3>
-              <p className="text-2xs text-slate-400 mt-0.5">Dispatched SMS and email alert notifications history</p>
+              <p className="text-xs text-slate-400 mt-0.5">Dispatched SMS and email alert notifications history</p>
             </div>
             
             <div className="p-2 space-y-2">
@@ -228,7 +228,7 @@ export default function NotificationsPage() {
                   <LoadingSpinner size="sm" />
                 </div>
               ) : commsLog.length === 0 ? (
-                <p className="text-2xs text-slate-400 p-4 text-center">No communications logs found.</p>
+                <p className="text-xs text-slate-400 p-4 text-center">No communications logs found.</p>
               ) : (
                 commsLog.map((log) => (
                   <div 
@@ -242,19 +242,19 @@ export default function NotificationsPage() {
                         ) : (
                           <MessageSquare className="w-3.5 h-3.5" />
                         )}
-                        <span className="text-[10px] font-semibold truncate max-w-[120px]">{log.to}</span>
+                        <span className="text-xs font-semibold truncate max-w-[120px]">{log.to}</span>
                       </div>
-                      <span className="bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-1.5 py-0.25 rounded text-[8px] font-bold uppercase tracking-wider">
+                      <span className="bg-slate-200 dark:bg-slate-800 text-slate-650 dark:text-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">
                         Simulated
                       </span>
                     </div>
-                    <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 leading-snug line-clamp-1">
+                    <p className="text-xs font-bold text-slate-700 dark:text-slate-300 leading-snug line-clamp-1">
                       {log.subject}
                     </p>
-                    <p className="text-2xs text-slate-400 leading-normal line-clamp-2 mt-1">
+                    <p className="text-xs text-slate-400 leading-normal line-clamp-2 mt-1">
                       {log.preview}
                     </p>
-                    <p className="text-[9px] text-slate-400 mt-2">
+                    <p className="text-xs text-slate-400 mt-2">
                       Sent {timeAgo(log.sentAt)}
                     </p>
                   </div>

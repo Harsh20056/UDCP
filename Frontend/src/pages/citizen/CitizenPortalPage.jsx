@@ -53,7 +53,7 @@ export default function CitizenPortalPage() {
       <div className="bg-gradient-to-r from-primary-800 to-primary-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
         <div className="relative z-10 max-w-xl space-y-2">
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Ongoing Projects Near You</h1>
-          <p className="text-xs text-slate-100/90 leading-relaxed">
+          <p className="text-sm text-slate-100/90 leading-relaxed">
             Welcome to the Bhopal Infrastructure Transparency Dashboard. View live coordination schedules, road closures, and municipal progress. Your feedback helps us build a smarter city.
           </p>
         </div>
@@ -71,17 +71,17 @@ export default function CitizenPortalPage() {
             placeholder="Search projects, segments or locations..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-800 dark:text-slate-150 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder-slate-400"
+            className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder-slate-400"
           />
         </div>
 
         <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar shrink-0">
           <button
             onClick={() => setSelectedDept('')}
-            className={`px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all shrink-0 ${
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 ${
               selectedDept === ''
                 ? 'bg-primary text-white shadow-sm'
-                : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-655 hover:bg-slate-50'
+                : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 hover:bg-slate-50'
             }`}
           >
             All Sectors
@@ -90,10 +90,10 @@ export default function CitizenPortalPage() {
             <button
               key={dept}
               onClick={() => setSelectedDept(dept)}
-              className={`px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all shrink-0 ${
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 ${
                 selectedDept === dept
                   ? 'bg-primary text-white shadow-sm'
-                  : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-655 hover:bg-slate-50'
+                  : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 hover:bg-slate-50'
               }`}
             >
               {dept}
@@ -131,7 +131,7 @@ export default function CitizenPortalPage() {
                     <DepartmentTag department={p.department} size="xs" dot={true} />
                     
                     {isRoadClosure ? (
-                      <span className="bg-red-50 text-red-750 px-2 py-0.5 rounded-full border border-red-100 text-[10px] font-bold">
+                      <span className="bg-red-50 text-red-700 dark:bg-red-950/20 dark:text-red-400 border border-red-100 dark:border-red-900/30 px-2 py-0.5 rounded-full text-xs font-bold">
                         Road Closure Active
                       </span>
                     ) : (
@@ -149,7 +149,7 @@ export default function CitizenPortalPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/60 text-[10px] font-semibold text-slate-600 dark:text-slate-400">
+                <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/60 text-xs font-semibold text-slate-600 dark:text-slate-400">
                   <div className="flex items-center gap-1">
                     <Calendar className="w-3.5 h-3.5 text-slate-400" />
                     <span>

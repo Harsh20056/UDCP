@@ -441,7 +441,7 @@ export default function GISMapPage() {
           <div className="p-4 flex flex-col gap-4">
             {/* Status Checkboxes */}
             <div>
-              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-2.5 block">Status</label>
+              <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5 block">Status</label>
               <div className="flex flex-col gap-2">
                 {[
                   { key: 'IN_PROGRESS', label: 'Active Construction' },
@@ -469,7 +469,7 @@ export default function GISMapPage() {
 
             {/* Department Filter Pills */}
             <div>
-              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-2.5 block">Department</label>
+              <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5 block">Department</label>
               <div className="flex flex-wrap gap-1.5">
                 {Object.keys(DEPARTMENT_COLORS).map(dept => {
                   const isActive = deptFilters.includes(dept);
@@ -478,7 +478,7 @@ export default function GISMapPage() {
                       key={dept} 
                       onClick={() => handleDeptToggle(dept)}
                       className={cn(
-                        "px-2 py-1 rounded-full border text-[10px] font-semibold cursor-pointer transition-all duration-150",
+                        "px-2 py-1 rounded-full border text-xs font-semibold cursor-pointer transition-all duration-150",
                         isActive
                           ? "bg-primary/10 border-primary/30 text-primary font-bold dark:bg-primary/20 dark:text-primary-400"
                           : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
@@ -559,7 +559,7 @@ export default function GISMapPage() {
               {/* Status Row */}
               <div className="flex items-center justify-between">
                 <span className={cn(
-                  "inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-2xs font-bold border",
+                  "inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-xs font-bold border",
                   selectedProject.status === 'IN_PROGRESS' && "bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900/30",
                   selectedProject.status === 'UNDER_REVIEW' && "bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-900/30",
                   selectedProject.status === 'SCHEDULED' && "bg-indigo-50 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-900/30",
@@ -584,8 +584,8 @@ export default function GISMapPage() {
 
               {/* Description */}
               <div className="space-y-1.5">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block">Overview</span>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Overview</span>
+                <p className="text-sm text-slate-650 dark:text-slate-400 leading-relaxed">
                   {selectedProject.description}
                 </p>
               </div>
@@ -593,11 +593,11 @@ export default function GISMapPage() {
               {/* Key Details Grid */}
               <div className="grid grid-cols-2 gap-3.5">
                 <div className="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                  <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block mb-0.5">Budget</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-0.5">Budget</span>
                   <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{formatCurrencyShort(selectedProject.budget)}</span>
                 </div>
                 <div className="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                  <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block mb-0.5">Timeline</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-0.5">Timeline</span>
                   <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">{formatDate(selectedProject.startDate)} - {formatDate(selectedProject.endDate)}</span>
                 </div>
               </div>
@@ -608,8 +608,8 @@ export default function GISMapPage() {
                   {selectedProject.assignedOfficer ? selectedProject.assignedOfficer.charAt(0) : 'U'}
                 </div>
                 <div>
-                  <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest block">Assigned Officer</span>
-                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{selectedProject.assignedOfficer || 'Officer Office'}</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Assigned Officer</span>
+                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{selectedProject.assignedOfficer || 'Officer Office'}</span>
                 </div>
                 <button className="ml-auto p-1.5 text-primary dark:text-primary-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded transition-colors">
                   <Mail className="w-4 h-4" />
@@ -624,7 +624,7 @@ export default function GISMapPage() {
                       <AlertTriangle className="w-4 h-4 text-red-500" />
                       Conflict Alert
                     </span>
-                    <span className="text-[10px] font-bold text-red-650 bg-red-100 dark:bg-red-950/40 px-2 py-0.5 rounded-full">
+                    <span className="text-xs font-bold text-red-650 bg-red-100 dark:bg-red-950/40 px-2 py-0.5 rounded-full">
                       Score: High
                     </span>
                   </div>
@@ -637,7 +637,7 @@ export default function GISMapPage() {
                         <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-snug">
                           {conf.locationDescription}
                         </h4>
-                        <p className="text-2xs text-slate-500 dark:text-slate-400 leading-normal">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
                           Overlap with: {conf.departmentsInvolved.filter(d => d !== selectedProject.department).join(', ')}
                         </p>
                         <button 
@@ -656,7 +656,7 @@ export default function GISMapPage() {
                   <Check className="w-5 h-5 text-green-600" />
                   <div>
                     <h4 className="text-xs font-bold text-green-800 dark:text-green-400">Clear Coordinate Corridor</h4>
-                    <p className="text-2xs text-slate-500 dark:text-slate-400">No spatial conflicts detected for this project.</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">No spatial conflicts detected for this project.</p>
                   </div>
                 </div>
               )}
@@ -668,12 +668,12 @@ export default function GISMapPage() {
             <>
               {/* Conflict Status Alert Header */}
               <div className="flex items-center justify-between">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 text-2xs font-bold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 text-xs font-bold uppercase tracking-wider">
                   <AlertOctagon className="w-3.5 h-3.5" />
                   {selectedConflict.status}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-2xs font-bold text-slate-400 uppercase tracking-widest">Risk Index</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Risk Index</span>
                   <span className="text-xs font-extrabold text-red-650 bg-red-100 dark:bg-red-950/40 px-2 py-0.5 rounded">
                     {selectedConflict.conflictScore}/100
                   </span>
@@ -682,18 +682,18 @@ export default function GISMapPage() {
 
               {/* Overlap Coordinates Description */}
               <div className="space-y-1.5">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block">Spatial Intersection</span>
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-snug">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Spatial Intersection</span>
+                <p className="text-sm font-bold text-slate-800 dark:text-slate-200 leading-snug">
                   {selectedConflict.locationDescription}
                 </p>
-                <p className="text-2xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Detected: {new Date(selectedConflict.detectedAt).toLocaleDateString()}
                 </p>
               </div>
 
               {/* Involved Departments Section */}
               <div className="space-y-2">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block">Involved Planners</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Involved Planners</span>
                 <div className="flex flex-wrap gap-1.5">
                   {selectedConflict.departmentsInvolved.map(dept => (
                     <span 
@@ -708,14 +708,14 @@ export default function GISMapPage() {
 
               {/* Conflict Suggested Actions Checklist */}
               <div className="space-y-2.5">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block">Suggested Resolutions</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Suggested Resolutions</span>
                 <div className="flex flex-col gap-2">
                   {selectedConflict.suggestedActions.map((action, idx) => (
                     <div key={idx} className="flex items-start gap-2.5 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                      <div className="w-4.5 h-4.5 rounded-full bg-red-50 dark:bg-red-950/40 text-red-650 flex items-center justify-center shrink-0 mt-0.5 text-2xs font-extrabold">
+                      <div className="w-5 h-5 rounded-full bg-red-50 dark:bg-red-950/40 text-red-650 flex items-center justify-center shrink-0 mt-0.5 text-xs font-extrabold">
                         {idx + 1}
                       </div>
-                      <p className="text-2xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                         {action}
                       </p>
                     </div>
@@ -725,7 +725,7 @@ export default function GISMapPage() {
 
               {/* Involved Project Links */}
               <div className="space-y-2.5">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block">Conflicting Initiatives</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Conflicting Initiatives</span>
                 <div className="flex flex-col gap-2">
                   {selectedConflict.involvedProjectIds.map(pId => {
                     const p = projects.find(proj => proj.id === pId);
@@ -737,8 +737,8 @@ export default function GISMapPage() {
                         className="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary cursor-pointer shadow-sm flex items-center justify-between group transition-all"
                       >
                         <div className="min-w-0">
-                          <span className="text-2xs font-bold text-primary dark:text-primary-400 block">{p.id}</span>
-                          <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate block w-[230px]">{p.name}</span>
+                          <span className="text-xs font-bold text-primary dark:text-primary-400 block">{p.id}</span>
+                          <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate block w-[230px]">{p.name}</span>
                         </div>
                         <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-primary transition-colors shrink-0" />
                       </div>

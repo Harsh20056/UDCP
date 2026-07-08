@@ -201,42 +201,42 @@ export default function FeedbackFormPage() {
         {/* Contact Info optional fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-100 dark:border-slate-800/60">
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-550 dark:text-slate-455">Full Name (Optional)</label>
+            <label className="text-sm font-semibold text-slate-600 dark:text-slate-400">Full Name (Optional)</label>
             <input
               type="text"
               placeholder="e.g. John Doe"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full h-9 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs text-slate-800 dark:text-slate-150 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+              className="w-full h-10 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-550 dark:text-slate-455">Email Address (Optional)</label>
+            <label className="text-sm font-semibold text-slate-600 dark:text-slate-400">Email Address (Optional)</label>
             <input
               type="email"
               placeholder="e.g. john@example.com"
               value={emailAddress}
               onChange={(e) => setEmailAddress(e.target.value)}
-              className="w-full h-9 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs text-slate-800 dark:text-slate-150 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+              className="w-full h-10 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
             />
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-slate-550 dark:text-slate-455">Phone Number (Optional)</label>
+          <label className="text-sm font-semibold text-slate-600 dark:text-slate-400">Phone Number (Optional)</label>
           <input
             type="tel"
             placeholder="e.g. +91-9876543210"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-            className="w-full h-9 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs text-slate-800 dark:text-slate-150 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary animate-all"
+            className="w-full h-10 px-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
           />
         </div>
 
         {/* Message / Details */}
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-slate-550 dark:text-slate-450">
+          <label className="text-sm font-semibold text-slate-600 dark:text-slate-400">
             Comments &amp; Feedback Details (Required)
           </label>
           <textarea
@@ -244,7 +244,7 @@ export default function FeedbackFormPage() {
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Describe your inquiry, report layout closure issues, or specify feedback notes..."
             rows={4}
-            className="w-full bg-white dark:bg-slate-955 border border-slate-200 dark:border-slate-850 rounded-lg p-3 text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+            className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary resize-none"
             required
           />
         </div>
@@ -254,7 +254,7 @@ export default function FeedbackFormPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full sm:w-auto bg-primary text-white text-xs font-semibold py-2.5 px-6 rounded-lg hover:bg-primary/95 shadow transition-colors flex items-center justify-center gap-1.5"
+            className="w-full sm:w-auto bg-primary text-white text-sm font-semibold py-2.5 px-6 rounded-lg hover:bg-primary/95 shadow transition-colors flex items-center justify-center gap-1.5"
           >
             <Send className="w-3.5 h-3.5" />
             {submitting ? 'Submitting...' : 'Submit Response'}
