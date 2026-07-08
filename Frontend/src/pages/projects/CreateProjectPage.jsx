@@ -38,7 +38,7 @@ export default function CreateProjectPage() {
       };
       
       const res = await axiosInstance.post(ENDPOINTS.PROJECTS, payload);
-      const newProject = res.data.data;
+      const newProject = res.data;
       navigate(ROUTES.PROJECT_DETAILS(newProject.id));
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create project');

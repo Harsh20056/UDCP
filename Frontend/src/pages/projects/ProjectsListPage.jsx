@@ -5,12 +5,14 @@ import {
   Search, Filter, Plus, MoreVertical, MapPin,
   Calendar, DollarSign, User as UserIcon, LayoutGrid, List
 } from 'lucide-react';
-import { MOCK_PROJECTS } from '../../api/mock/data/projects.js';
 import { ROUTES } from '../../routes/routeConfig.js';
+import axiosInstance from '../../api/axiosInstance.js';
+import { ENDPOINTS } from '../../api/endpoints.js';
 import PageHeader from '../../components/common/PageHeader.jsx';
 import StatusBadge from '../../components/common/StatusBadge.jsx';
 import PriorityTag from '../../components/common/PriorityTag.jsx';
 import DepartmentTag from '../../components/common/DepartmentTag.jsx';
+import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 import { DEPARTMENT_LIST, STATUS_CONFIG, PRIORITY_CONFIG } from '../../config/constants.js';
 import { formatCurrencyShort } from '../../utils/formatters.js';
 import { formatDate } from '../../utils/dateUtils.js';
@@ -26,6 +28,12 @@ export default function ProjectsListPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [priorityFilter, setPriorityFilter] = useState('');
   const [viewMode, setViewMode] = useState('list'); // 'list' | 'grid'
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   // Sync search query parameter from URL
   useEffect(() => {
@@ -37,21 +45,35 @@ export default function ProjectsListPage() {
     }
     setCurrentPage(1);
   }, [searchParams]);
-  
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+
+  // Fetch projects from mock API
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const res = await axiosInstance.get(ENDPOINTS.PROJECTS, {
+          params: { limit: 1000 }
+        });
+        setProjects(res.data.data || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   // Filter projects
   const filteredProjects = useMemo(() => {
-    return MOCK_PROJECTS.filter((p) => {
+    return projects.filter((p) => {
       const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.id.toLowerCase().includes(search.toLowerCase());
       const matchDept = deptFilter ? p.department === deptFilter : true;
       const matchStatus = statusFilter ? p.status === statusFilter : true;
       const matchPriority = priorityFilter ? p.priority === priorityFilter : true;
       return matchSearch && matchDept && matchStatus && matchPriority;
     });
-  }, [search, deptFilter, statusFilter, priorityFilter]);
+  }, [projects, search, deptFilter, statusFilter, priorityFilter]);
 
   // Pagination logic
   const totalItems = filteredProjects.length;
@@ -149,7 +171,12 @@ export default function ProjectsListPage() {
         animate={{ opacity: 1, y: 0 }}
         className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm rounded-xl overflow-hidden"
       >
-        {viewMode === 'list' ? (
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20">
+            <LoadingSpinner />
+            <p className="text-sm text-slate-500 mt-4">Loading projects...</p>
+          </div>
+        ) : viewMode === 'list' ? (
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
               <thead className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
@@ -198,9 +225,9 @@ export default function ProjectsListPage() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center text-xs font-semibold text-slate-600 dark:text-slate-400 shrink-0">
-                            {project.createdBy.split(' ').map(n => n[0]).join('')}
+                            {project.createdBy ? project.createdBy.split(' ').map(n => n[0]).join('') : 'U'}
                           </div>
-                          <span className="text-slate-700 dark:text-slate-300">{project.createdBy}</span>
+                          <span className="text-slate-700 dark:text-slate-300">{project.createdBy || 'Unknown'}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-center">

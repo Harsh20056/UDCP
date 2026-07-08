@@ -145,9 +145,9 @@ export default function ProjectDetailsPage() {
                 <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Assigned Officer</p>
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-xs font-semibold text-slate-600 dark:text-slate-400">
-                    {project.createdBy.charAt(0)}
+                    {project.createdBy ? project.createdBy.charAt(0) : 'U'}
                   </div>
-                  <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{project.createdBy}</span>
+                  <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{project.createdBy || 'Unknown'}</span>
                 </div>
               </div>
               <div>

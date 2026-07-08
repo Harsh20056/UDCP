@@ -166,16 +166,28 @@ export function setupMockAdapter() {
   // POST /projects
   mock.onPost('/projects').reply((config) => {
     const data = JSON.parse(config.data);
+    const auth = config.headers?.Authorization;
+    let userId = 'usr-002'; // default fallback
+    if (auth) {
+      try {
+        const payload = JSON.parse(atob(auth.replace('Bearer ', '')));
+        userId = payload.userId;
+      } catch (e) {}
+    }
+
     const newProject = {
       id: `PRJ-${new Date().getFullYear()}-${String(projects.length + 1).padStart(3, '0')}`,
       ...data,
+      createdBy: userId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       conflictIds: [],
       progressPercent: 0,
     };
     projects.unshift(newProject);
-    addAuditLog(data.createdBy || 'usr-001', 'User', 'PROJECT_CREATED', 'project', newProject.id, `Created project: ${newProject.name}`);
+    
+    const user = users.find(u => u.id === userId);
+    addAuditLog(userId, user ? user.name : 'Planner', 'PROJECT_CREATED', 'project', newProject.id, `Created project: ${newProject.name}`);
 
     // Add notification
     notifications.unshift({
