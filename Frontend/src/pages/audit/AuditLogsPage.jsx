@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { 
   History, Search, Filter, Download, ArrowUpDown, ChevronLeft, ChevronRight, 
   Info, ShieldAlert, LogIn, PlusCircle, CheckCircle2, AlertTriangle, Trash2, Edit 
@@ -30,6 +31,8 @@ const USER_METADATA = {
 };
 
 export default function AuditLogsPage() {
+  const [searchParams] = useSearchParams();
+  const querySearch = searchParams.get('search') || '';
   const [logs, setLogs] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -37,7 +40,8 @@ export default function AuditLogsPage() {
 
   // Pagination & Filters state
   const [page, setPage] = useState(1);
-  const [searchUser, setSearchUser] = useState('');
+  const [searchUser, setSearchUser] = useState(querySearch);
+  const [appliedSearchUser, setAppliedSearchUser] = useState(querySearch);
   const [actionType, setActionType] = useState('');
   
   // Expanded log details state
@@ -53,7 +57,7 @@ export default function AuditLogsPage() {
         limit: 10,
       };
 
-      if (searchUser) params.user = searchUser;
+      if (appliedSearchUser) params.user = appliedSearchUser;
       if (actionType) params.action = actionType;
 
       const res = await axiosInstance.get(ENDPOINTS.AUDIT_LOGS, { params });
@@ -67,14 +71,29 @@ export default function AuditLogsPage() {
     }
   };
 
+  // Sync search query parameter from URL with debounce
+  useEffect(() => {
+    const querySearch = searchParams.get('search') || '';
+    setSearchUser(querySearch);
+    
+    const handler = setTimeout(() => {
+      setAppliedSearchUser(querySearch);
+      setPage(1);
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchParams]);
+
   useEffect(() => {
     fetchLogs();
-  }, [page, actionType]); // Search query uses trigger or separate manual button for typing latency
+  }, [page, actionType, appliedSearchUser]); // Search query uses trigger or separate manual button for typing latency
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setPage(1);
-    fetchLogs();
+    setAppliedSearchUser(searchUser);
   };
 
   // Mock export download triggers a file download of current logs
@@ -152,11 +171,12 @@ export default function AuditLogsPage() {
             Apply Search
           </button>
 
-          {(searchUser || actionType) && (
+          {(searchUser || appliedSearchUser || actionType) && (
             <button
               type="button"
               onClick={() => {
                 setSearchUser('');
+                setAppliedSearchUser('');
                 setActionType('');
                 setPage(1);
               }}

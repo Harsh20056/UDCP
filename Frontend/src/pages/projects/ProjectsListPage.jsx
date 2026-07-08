@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Search, Filter, Plus, MoreVertical, MapPin,
@@ -20,11 +20,23 @@ import { can } from '../../utils/permissions.js';
 export default function ProjectsListPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('search') || '');
   const [deptFilter, setDeptFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [priorityFilter, setPriorityFilter] = useState('');
   const [viewMode, setViewMode] = useState('list'); // 'list' | 'grid'
+
+  // Sync search query parameter from URL
+  useEffect(() => {
+    const querySearch = searchParams.get('search');
+    if (querySearch !== null) {
+      setSearch(querySearch);
+    } else {
+      setSearch('');
+    }
+    setCurrentPage(1);
+  }, [searchParams]);
   
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);

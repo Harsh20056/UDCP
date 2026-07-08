@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Check, X, ThumbsUp, HelpCircle, MessageSquare, AlertTriangle, ShieldAlert,
@@ -14,6 +15,8 @@ import StatusBadge from '../../components/common/StatusBadge.jsx';
 
 export default function ApprovalsPage() {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
   const [approvals, setApprovals] = useState([]);
   const [conflicts, setConflicts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -229,14 +232,22 @@ export default function ApprovalsPage() {
     );
   };
 
-  // Filter approvals based on tab selection
+  // Filter approvals based on tab selection and search query
   const filteredApprovals = approvals.filter(a => {
-    if (activeTab === 'ALL') return true;
-    if (activeTab === 'SUBMITTED') return a.status === 'PENDING' && a.currentStage === 'SUBMITTED';
-    if (activeTab === 'UNDER_REVIEW') return a.status === 'PENDING' && a.currentStage === 'UNDER_REVIEW';
-    if (activeTab === 'APPROVED') return a.status === 'APPROVED';
-    if (activeTab === 'REJECTED') return a.status === 'REJECTED';
-    return true;
+    let matchTab = true;
+    if (activeTab === 'SUBMITTED') matchTab = a.status === 'PENDING' && a.currentStage === 'SUBMITTED';
+    else if (activeTab === 'UNDER_REVIEW') matchTab = a.status === 'PENDING' && a.currentStage === 'UNDER_REVIEW';
+    else if (activeTab === 'APPROVED') matchTab = a.status === 'APPROVED';
+    else if (activeTab === 'REJECTED') matchTab = a.status === 'REJECTED';
+
+    const query = searchQuery.toLowerCase().trim();
+    const matchSearch = query
+      ? a.projectName.toLowerCase().includes(query) || 
+        a.department.toLowerCase().includes(query) || 
+        (a.comment && a.comment.toLowerCase().includes(query))
+      : true;
+
+    return matchTab && matchSearch;
   });
 
   const pendingApprovalsCount = approvals.filter(a => a.status === 'PENDING').length;

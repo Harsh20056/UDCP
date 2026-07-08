@@ -78,10 +78,20 @@ export default function ConflictsListPage() {
   const [detailsLoading, setDetailsLoading] = useState(false);
   
   // Filter states
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedRisk, setSelectedRisk] = useState('');
   const [selectedDept, setSelectedDept] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
+
+  // Sync search query parameter from URL
+  useEffect(() => {
+    const querySearch = searchParams.get('search');
+    if (querySearch !== null) {
+      setSearchQuery(querySearch);
+    } else {
+      setSearchQuery('');
+    }
+  }, [searchParams]);
 
   // Fetch conflicts and projects mapping
   const fetchData = async () => {
@@ -136,11 +146,14 @@ export default function ConflictsListPage() {
   // Handle setting parameters / detail drawer trigger
   const handleSelectConflict = (id) => {
     setSelectedConflictId(id);
-    if (id) {
-      setSearchParams({ id });
-    } else {
-      setSearchParams({});
-    }
+    setSearchParams(prev => {
+      if (id) {
+        prev.set('id', id);
+      } else {
+        prev.delete('id');
+      }
+      return prev;
+    });
   };
 
   // Handle Resolve Action

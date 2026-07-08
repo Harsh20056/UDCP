@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
   Bell, Mail, MessageSquare, AlertTriangle, CheckCircle, Clock, Info, CheckCheck 
 } from 'lucide-react';
@@ -20,6 +20,8 @@ const NOTIF_CONFIG = {
 
 export default function NotificationsPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
   const { 
     notifications, 
     unreadCount, 
@@ -49,18 +51,24 @@ export default function NotificationsPage() {
     fetchCommsLog();
   }, []);
 
-  // Filter tab mapping
+  // Filter tab and search query mapping
   const filteredNotifications = notifications.filter(n => {
-    if (activeTab === 'ALL') return true;
-    if (activeTab === 'UNREAD') return !n.read;
-    if (activeTab === 'APPROVALS') {
-      return ['APPROVAL_GRANTED', 'APPROVAL_REJECTED', 'PROJECT_SUBMITTED', 'PROJECT_UPDATED'].includes(n.type);
+    let matchTab = true;
+    if (activeTab === 'UNREAD') matchTab = !n.read;
+    else if (activeTab === 'APPROVALS') {
+      matchTab = ['APPROVAL_GRANTED', 'APPROVAL_REJECTED', 'PROJECT_SUBMITTED', 'PROJECT_UPDATED'].includes(n.type);
     }
-    if (activeTab === 'CONFLICTS') return n.type === 'CONFLICT_DETECTED';
-    if (activeTab === 'DEADLINES') {
-      return n.title.toLowerCase().includes('deadline') || n.message.toLowerCase().includes('deadline');
+    else if (activeTab === 'CONFLICTS') matchTab = n.type === 'CONFLICT_DETECTED';
+    else if (activeTab === 'DEADLINES') {
+      matchTab = n.title.toLowerCase().includes('deadline') || n.message.toLowerCase().includes('deadline');
     }
-    return true;
+
+    const query = searchQuery.toLowerCase().trim();
+    const matchSearch = query 
+      ? n.title.toLowerCase().includes(query) || n.message.toLowerCase().includes(query)
+      : true;
+
+    return matchTab && matchSearch;
   });
 
   // Handle clicking a notification item
