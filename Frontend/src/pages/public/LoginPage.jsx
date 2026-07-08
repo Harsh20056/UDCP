@@ -135,7 +135,7 @@ export default function LoginPage() {
                 <motion.div
                   initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-2 bg-red-50 dark:bg-red-955 border border-red-200 dark:border-red-900/30 text-red-700 dark:text-red-400 rounded-lg px-3 py-2.5 mb-4 text-sm"
+                  className="flex items-center gap-2 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-900/30 text-red-700 dark:text-red-400 rounded-lg px-3 py-2.5 mb-4 text-sm"
                 >
                   <AlertCircle className="w-4 h-4 flex-shrink-0" />
                   {error}

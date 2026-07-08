@@ -207,7 +207,7 @@ export default function RegisterPage() {
                   <motion.div
                     initial={{ opacity: 0, y: -6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-2 bg-red-50 dark:bg-red-955 border border-red-200 dark:border-red-900/30 text-red-700 dark:text-red-400 rounded-lg px-3 py-2.5 mb-5 text-sm"
+                    className="flex items-center gap-2 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-900/30 text-red-700 dark:text-red-400 rounded-lg px-3 py-2.5 mb-5 text-sm"
                   >
                     <AlertCircle className="w-4 h-4 flex-shrink-0" />
                     {error}
@@ -248,7 +248,7 @@ export default function RegisterPage() {
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         required
-                        className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                        className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                       />
                     </div>
                   </div>
@@ -264,7 +264,7 @@ export default function RegisterPage() {
                           value={department}
                           onChange={e => setDepartment(e.target.value)}
                           required
-                          className="w-full pl-3 pr-10 py-2 bg-white dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all appearance-none cursor-pointer"
+                          className="w-full pl-3 pr-10 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all appearance-none cursor-pointer"
                         >
                           <option value="">Select your department</option>
                           {DEPARTMENT_LIST.map(dept => (

@@ -31,7 +31,7 @@ export default function PendingApprovalPage() {
       >
         {/* Hourglass icon */}
         <div className="flex justify-center mb-6">
-          <div className="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-955 border border-blue-100 dark:border-blue-900/30 flex items-center justify-center">
+          <div className="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-950 border border-blue-100 dark:border-blue-900/30 flex items-center justify-center">
             <Timer className="w-9 h-9 text-[#0B4F8A] dark:text-[#a2c9ff]" />
           </div>
         </div>
