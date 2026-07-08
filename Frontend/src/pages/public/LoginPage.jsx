@@ -77,7 +77,7 @@ export default function LoginPage() {
       <div className="w-full max-w-5xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl shadow-modal overflow-hidden flex flex-col lg:flex-row mb-6">
         
         {/* Left panel (branding text) */}
-        <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-10 bg-gradient-to-b from-[#0b3a60] to-[#02182b] text-white relative overflow-hidden shrink-0 border-r border-[#082a46] dark:border-slate-800">
+        <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-10 bg-slate-50 dark:bg-slate-950 text-white relative overflow-hidden shrink-0 border-r border-[#003866] dark:border-slate-900">
           <FloatingDots />
           {/* Background Pattern */}
           <div className="absolute inset-0 z-0 opacity-5 pointer-events-none" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida/AP1WRLsSovemGf2n5MeG9sdGbFTjA31bsKZDzqXW1lAyacrwisx6ut7hZUaxTCJixq12rhVUJUPSSOL0MhJpfQJTPw1pUQvLkA7u0k1OKr8p7YSXUZZfSasfplC4PwRpVCOOsZONvdnEGHx8HFhyGZgrxxRlh7UHniyWJnZpQ9gW7Tf6t7zP5E3ol22g4ZqSBKQbI1sGJB4KGFrJLQzCuUII0YEn3jGSu41BPVaqGSSEO-U9vECDdWbjnLJxK1U')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>

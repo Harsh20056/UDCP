@@ -9,7 +9,7 @@ export default function PendingApprovalPage() {
   const { user, logout } = useAuth();
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-800 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-6">
       {/* Logo */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}

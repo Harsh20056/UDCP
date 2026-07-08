@@ -148,7 +148,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen w-full flex bg-slate-50 dark:bg-slate-950">
       {/* ── Left panel ──────────────────────────────────────────────────────── */}
-      <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 relative overflow-hidden bg-gradient-to-b from-[#0b3a60] to-[#02182b] text-white border-r border-[#082a46] dark:border-slate-800">
+      <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 relative overflow-hidden bg-gradient-to-b from-[#0B4F8A] to-[#003866] text-white border-r border-[#003866] dark:border-slate-800">
         <GISBackground />
 
         {/* Logo */}
