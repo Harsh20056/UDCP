@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UDCP - Conflict Detection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#003866",
+                    "tertiary-fixed": "#ffdcc6",
+                    "on-primary-fixed": "#001c38",
+                    "surface-container": "#eceef0",
+                    "surface-tint": "#27609c",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container-high": "#e6e8ea",
+                    "secondary-fixed": "#d4e3ff",
+                    "secondary-container": "#6babff",
+                    "tertiary-fixed-dim": "#ffb785",
+                    "on-primary-container": "#94c2ff",
+                    "on-secondary-fixed-variant": "#004785",
+                    "dark-bg-deep": "#0F172A",
+                    "surface-dim": "#d8dadc",
+                    "on-tertiary-fixed-variant": "#713700",
+                    "pending": "#D97706",
+                    "on-secondary-container": "#003e75",
+                    "on-tertiary-fixed": "#301400",
+                    "inverse-primary": "#a2c9ff",
+                    "tertiary": "#592a00",
+                    "surface-container-low": "#f2f4f6",
+                    "inverse-on-surface": "#eff1f3",
+                    "in-progress": "#2563EB",
+                    "success": "#059669",
+                    "conflict": "#DC2626",
+                    "error": "#ba1a1a",
+                    "text-slate-muted": "#64748B",
+                    "dark-surface-card": "#1E293B",
+                    "primary-fixed-dim": "#a2c9ff",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "surface-card": "#FFFFFF",
+                    "secondary": "#005fae",
+                    "on-surface-variant": "#424750",
+                    "inverse-surface": "#2d3133",
+                    "on-surface": "#191c1e",
+                    "surface-bright": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#001c3a",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#7b3c00",
+                    "primary-fixed": "#d3e4ff",
+                    "primary-container": "#0b4f8a",
+                    "background": "#f7f9fb",
+                    "border-subtle": "#E2E8F0",
+                    "on-primary-fixed-variant": "#004881",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#ffab6f",
+                    "text-charcoal": "#1E293B",
+                    "surface": "#f7f9fb",
+                    "outline-variant": "#c2c7d1",
+                    "secondary-fixed-dim": "#a5c8ff",
+                    "outline": "#727781"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit-lg": "24px",
+                    "unit-sm": "8px",
+                    "unit-xs": "4px",
+                    "gutter": "24px",
+                    "unit-xl": "48px",
+                    "margin-tablet": "32px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "48px",
+                    "unit-md": "16px",
+                    "grid-columns": "12"
+            },
+            "fontFamily": {
+                    "display-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .gauge-bg { stroke: #E2E8F0; }
+        .gauge-critical { stroke: #DC2626; stroke-dasharray: 251.2; stroke-dashoffset: 25.12; }
+        .gauge-high { stroke: #D97706; stroke-dasharray: 251.2; stroke-dashoffset: 75.36; }
+        .gauge-medium { stroke: #2563EB; stroke-dasharray: 251.2; stroke-dashoffset: 125.6; }
+        
+        .shadow-subtle { box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); }
+        .shadow-overlay { box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[280px] bg-primary dark:bg-dark-bg-deep shadow-md flex flex-col py-gutter z-50 md:flex hidden">
+<div class="px-gutter mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-on-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-icon="location_city">location_city</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-on-primary tracking-tight">UDCP</h1>
+<p class="text-label-sm font-label-sm text-on-primary/70">City Coordination Platform</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col space-y-1 px-2 text-label-md font-label-md">
+<li>
+<a class="text-on-primary-fixed-variant hover:text-on-primary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a class="text-on-primary-fixed-variant hover:text-on-primary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+                        Projects
+                    </a>
+</li>
+<li>
+<a class="text-on-primary-fixed-variant hover:text-on-primary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+                        GIS Map
+                    </a>
+</li>
+<li>
+<a class="bg-primary-container text-on-primary-container rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="error_outline">error_outline</span>
+                        Conflicts
+                    </a>
+</li>
+<li>
+<a class="text-on-primary-fixed-variant hover:text-on-primary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+                        Approvals
+                    </a>
+</li>
+<li>
+<a class="text-on-primary-fixed-variant hover:text-on-primary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                        Notifications
+                    </a>
+</li>
+<li>
+<a class="text-on-primary-fixed-variant hover:text-on-primary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+                        Analytics
+                    </a>
+</li>
+<li>
+<a class="text-on-primary-fixed-variant hover:text-on-primary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                        Audit Logs
+                    </a>
+</li>
+</ul>
+</div>
+<div class="mt-auto pt-4 border-t border-on-primary/10">
+<ul class="flex flex-col space-y-1 px-2 text-label-md font-label-md">
+<li>
+<a class="text-on-primary-fixed-variant hover:text-on-primary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                        Settings
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-[280px] w-full min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="h-16 px-gutter flex justify-between items-center bg-surface dark:bg-dark-bg-deep border-b border-border-subtle dark:border-outline-variant w-full shrink-0">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-on-surface-variant rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container dark:hover:bg-dark-surface-card rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container dark:hover:bg-dark-surface-card rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container dark:hover:bg-dark-surface-card rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-sm ml-2 overflow-hidden border border-border-subtle">
+<img alt="Administrator Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKmBpqJXAvCZvPY-CQOAo_ZtCEhzFAqKXaSI-k1d-X8WgbRhD-Vy19J2lvMszSUYmqOYPHBvcHkZ9mWVH8ikcoDh2RKi8O98LwqM6E5adBne0ar2gC-GPTVnS6-d4zixYrwKEv73El5nieFThtyOaNf7Y-BCxX_bTCzUTNLewgi4y-4gbgWmZvB6ZsWYIFO6XE65i9HvYEd55kt0MkOv8pJW4a2CIsRwXe_QWrN5GRCb2SrjTz8rI_"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-gutter max-w-[1440px] mx-auto w-full flex flex-col lg:flex-row gap-gutter">
+<!-- Left Column: Grid -->
+<div class="flex-1 flex flex-col gap-unit-lg">
+<!-- Page Header -->
+<div class="flex flex-col gap-unit-xs">
+<div class="flex items-center gap-3">
+<h2 class="text-headline-lg font-headline-lg text-text-charcoal tracking-tight">Conflict Detection</h2>
+<span class="bg-error/10 text-error px-2 py-1 rounded text-label-sm font-label-sm border border-error/20 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error inline-block"></span>
+                            5 Active Conflicts
+                        </span>
+</div>
+<p class="text-body-md font-body-md text-text-slate-muted max-w-2xl">
+                        Automated spatial and temporal overlap detection between municipal projects.
+                    </p>
+</div>
+<!-- Filters / Toolbar (Ghost actions) -->
+<div class="flex flex-wrap gap-2 items-center justify-between pb-2 border-b border-border-subtle">
+<div class="flex gap-2">
+<button class="px-3 py-1.5 rounded-full border border-border-subtle bg-surface-card text-label-md font-label-md text-text-charcoal hover:bg-surface-container transition-colors shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span> All Departments
+                        </button>
+<button class="px-3 py-1.5 rounded-full border border-border-subtle bg-surface-card text-label-md font-label-md text-text-charcoal hover:bg-surface-container transition-colors shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="date_range">date_range</span> Next 30 Days
+                        </button>
+</div>
+<div class="flex gap-1 text-label-sm">
+<button class="px-2 py-1 text-primary hover:bg-primary/5 rounded">List View</button>
+<button class="px-2 py-1 text-text-slate-muted hover:bg-surface-container rounded">Map View</button>
+</div>
+</div>
+<!-- Conflicts Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-unit-md">
+<!-- Card 1: Critical -->
+<div class="bg-surface-card rounded-xl border border-primary p-unit-lg shadow-subtle flex flex-col gap-4 relative overflow-hidden group hover:border-primary/50 transition-colors cursor-pointer">
+<div class="absolute top-0 right-0 bg-error/10 text-error px-3 py-1 rounded-bl-lg text-label-sm font-label-sm border-b border-l border-error/20 font-semibold">Critical Risk</div>
+<div class="flex items-start gap-4 mt-2">
+<div class="relative w-16 h-16 shrink-0">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="gauge-bg" cx="50" cy="50" fill="none" r="40" stroke-width="8"></circle>
+<circle class="gauge-critical" cx="50" cy="50" fill="none" r="40" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center flex-col">
+<span class="text-label-md font-label-md text-error leading-none">92</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-text-slate-muted uppercase tracking-wider">Same-Road Excavation</span>
+<h3 class="text-headline-sm font-headline-sm text-text-charcoal leading-tight">Market St. Utilities Upgrade vs. Road Resurfacing</h3>
+<div class="flex items-center gap-1 text-body-sm font-body-sm text-text-slate-muted mt-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+                                    Market Street, Sector 4
+                                </div>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-border-subtle">
+<span class="bg-blue-50 text-blue-700 border border-blue-100 px-2 py-1 rounded text-label-sm font-label-sm flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> Water Supply
+                            </span>
+<span class="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-1 rounded text-label-sm font-label-sm flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-slate-500 inline-block"></span> PWD
+                            </span>
+</div>
+</div>
+<!-- Card 2: High -->
+<div class="bg-surface-card rounded-xl border border-border-subtle p-unit-lg shadow-subtle flex flex-col gap-4 relative overflow-hidden group hover:border-primary/30 transition-colors cursor-pointer">
+<div class="absolute top-0 right-0 bg-pending/10 text-pending px-3 py-1 rounded-bl-lg text-label-sm font-label-sm border-b border-l border-pending/20 font-semibold">High Risk</div>
+<div class="flex items-start gap-4 mt-2">
+<div class="relative w-16 h-16 shrink-0">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="gauge-bg" cx="50" cy="50" fill="none" r="40" stroke-width="8"></circle>
+<circle class="gauge-high" cx="50" cy="50" fill="none" r="40" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center flex-col">
+<span class="text-label-md font-label-md text-pending leading-none">75</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-text-slate-muted uppercase tracking-wider">Timeline Overlap</span>
+<h3 class="text-headline-sm font-headline-sm text-text-charcoal leading-tight">Civic Center Plaza Event vs. Fiber Laying</h3>
+<div class="flex items-center gap-1 text-body-sm font-body-sm text-text-slate-muted mt-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+                                    Downtown Plaza
+                                </div>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-border-subtle">
+<span class="bg-purple-50 text-purple-700 border border-purple-100 px-2 py-1 rounded text-label-sm font-label-sm flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-purple-500 inline-block"></span> Telecom
+                            </span>
+<span class="bg-amber-50 text-amber-700 border border-amber-100 px-2 py-1 rounded text-label-sm font-label-sm flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span> Cultural Dept
+                            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Slide-in Detail Panel -->
+<aside class="w-full lg:w-[400px] shrink-0 bg-surface-card rounded-xl border border-border-subtle shadow-overlay flex flex-col h-[calc(100vh-6rem-48px)] sticky top-[calc(4rem+24px)] overflow-hidden">
+<!-- Header -->
+<div class="p-unit-lg border-b border-border-subtle bg-surface-bright flex justify-between items-start">
+<div>
+<span class="text-label-sm font-label-sm text-error uppercase tracking-wider font-semibold">Critical Conflict</span>
+<h3 class="text-headline-sm font-headline-sm text-text-charcoal mt-1">Market St. Clash</h3>
+<p class="text-body-sm text-text-slate-muted flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="pin_drop">pin_drop</span> Market Street, Sector 4
+                        </p>
+</div>
+<button class="text-text-slate-muted hover:text-text-charcoal p-1">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<!-- Scrollable Body -->
+<div class="flex-1 overflow-y-auto p-unit-lg flex flex-col gap-unit-lg">
+<!-- Score & Description -->
+<div class="flex gap-4 items-center bg-error/5 p-4 rounded-lg border border-error/10">
+<div class="relative w-20 h-20 shrink-0">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="gauge-bg stroke-error/20" cx="50" cy="50" fill="none" r="40" stroke-width="8"></circle>
+<circle class="gauge-critical" cx="50" cy="50" fill="none" r="40" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-headline-md font-headline-md text-error leading-none">92</span>
+</div>
+</div>
+<div>
+<h4 class="text-label-md font-label-md text-text-charcoal">Spatial &amp; Temporal Collision</h4>
+<p class="text-body-sm text-text-slate-muted mt-1 leading-relaxed">
+                                PWD resurfacing is scheduled 3 days after Water Supply begins excavation on the exact same road segment.
+                            </p>
+</div>
+</div>
+<!-- Comparison -->
+<div>
+<h4 class="text-label-md font-label-md text-text-charcoal mb-3 uppercase tracking-wider text-xs">Conflicting Projects</h4>
+<div class="flex flex-col gap-3">
+<!-- Proj 1 -->
+<div class="p-3 border border-border-subtle rounded-lg bg-surface flex gap-3 relative before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-blue-500 before:rounded-l-lg">
+<div class="flex-1">
+<div class="text-label-sm font-label-sm text-blue-700 mb-1">Water Supply</div>
+<div class="text-label-md font-label-md text-text-charcoal">Main Line Excavation</div>
+<div class="text-body-sm text-text-slate-muted mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="calendar_month">calendar_month</span> Oct 12 - Oct 25
+                                    </div>
+</div>
+</div>
+<!-- Icon separator -->
+<div class="flex justify-center -my-2 z-10">
+<div class="bg-surface-card border border-border-subtle rounded-full p-1 text-error">
+<span class="material-symbols-outlined text-[16px]" data-icon="compare_arrows">compare_arrows</span>
+</div>
+</div>
+<!-- Proj 2 -->
+<div class="p-3 border border-border-subtle rounded-lg bg-surface flex gap-3 relative before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-slate-500 before:rounded-l-lg">
+<div class="flex-1">
+<div class="text-label-sm font-label-sm text-slate-700 mb-1">PWD</div>
+<div class="text-label-md font-label-md text-text-charcoal">Road Resurfacing Phase 2</div>
+<div class="text-body-sm text-text-slate-muted mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="calendar_month">calendar_month</span> Oct 15 - Nov 02
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Suggestions -->
+<div>
+<h4 class="text-label-md font-label-md text-text-charcoal mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="auto_awesome">auto_awesome</span> Suggested Actions
+                        </h4>
+<ul class="flex flex-col gap-2">
+<li class="flex items-start gap-2 bg-surface p-3 rounded border border-border-subtle">
+<span class="material-symbols-outlined text-success mt-0.5 text-[18px]" data-icon="check_circle">check_circle</span>
+<span class="text-body-sm text-text-charcoal">Delay PWD Resurfacing by 14 days to allow trench settlement.</span>
+</li>
+<li class="flex items-start gap-2 bg-surface p-3 rounded border border-border-subtle">
+<span class="material-symbols-outlined text-success mt-0.5 text-[18px]" data-icon="check_circle">check_circle</span>
+<span class="text-body-sm text-text-charcoal">Coordinate joint road closure with Traffic Police to minimize disruption.</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="p-4 border-t border-border-subtle bg-surface-bright flex gap-3">
+<button class="flex-1 px-4 py-2 rounded-lg border border-primary text-primary font-label-md text-label-md hover:bg-primary/5 transition-colors text-center">
+                        Acknowledge
+                    </button>
+<button class="flex-1 px-4 py-2 rounded-lg bg-primary text-white font-label-md text-label-md hover:bg-primary/90 transition-colors text-center shadow-sm">
+                        Resolve Conflict
+                    </button>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

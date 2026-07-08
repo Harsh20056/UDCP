@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Analytics &amp; Insights - UDCP</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed-dim": "#ffb785",
+                        "on-primary-fixed-variant": "#004881",
+                        "surface-container": "#eceef0",
+                        "on-surface": "#191c1e",
+                        "tertiary-container": "#7b3c00",
+                        "dark-surface-card": "#1E293B",
+                        "surface": "#f7f9fb",
+                        "on-tertiary-fixed": "#301400",
+                        "pending": "#D97706",
+                        "on-secondary-fixed-variant": "#004785",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-container": "#0b4f8a",
+                        "surface-tint": "#27609c",
+                        "secondary-fixed": "#d4e3ff",
+                        "border-subtle": "#E2E8F0",
+                        "secondary-fixed-dim": "#a5c8ff",
+                        "primary": "#003866",
+                        "on-primary-fixed": "#001c38",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#94c2ff",
+                        "tertiary": "#592a00",
+                        "inverse-primary": "#a2c9ff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-container": "#003e75",
+                        "on-secondary-fixed": "#001c3a",
+                        "in-progress": "#2563EB",
+                        "on-background": "#191c1e",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-bright": "#f7f9fb",
+                        "secondary": "#005fae",
+                        "inverse-on-surface": "#eff1f3",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#d3e4ff",
+                        "on-tertiary-container": "#ffab6f",
+                        "on-surface-variant": "#424750",
+                        "on-primary": "#ffffff",
+                        "text-charcoal": "#1E293B",
+                        "surface-card": "#FFFFFF",
+                        "on-secondary": "#ffffff",
+                        "text-slate-muted": "#64748B",
+                        "error": "#ba1a1a",
+                        "dark-bg-deep": "#0F172A",
+                        "success": "#059669",
+                        "outline-variant": "#c2c7d1",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#a2c9ff",
+                        "conflict": "#DC2626",
+                        "outline": "#727781",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "secondary-container": "#6babff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "unit-lg": "24px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "grid-columns": "12",
+                        "unit-sm": "8px",
+                        "unit-md": "16px",
+                        "unit-xl": "48px",
+                        "unit-xs": "4px",
+                        "margin-tablet": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-on-surface font-body-md antialiased min-h-screen">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-unit-lg px-unit-md bg-white border-r border-border-subtle fixed left-0 top-0 w-[280px] z-50">
+<!-- Header -->
+<div class="flex items-center gap-unit-md px-unit-sm mb-unit-xl">
+<img class="w-10 h-10 rounded-lg object-cover bg-surface-dim" data-alt="A small, professional corporate logo or seal suitable for a high-end municipal infrastructure dashboard. The logo should use a palette of deep navy blue and subtle gold accents. The design should feel authoritative, modern, and reliable. The lighting should be flat and clean, typical of an SVG-style graphic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaGvgQZlNGLffjYWY7lfmmbcSJnS-HjyjYEtttZEb3xc5cLM1p-ge5YWAPmNk8jM8wULffM4EaX70q_wQCLIYjmEJNbOiB9KiNNH6MPDdQ8D8qYwNseM4wUaA7ly48XW1w6hMPgwglVllJ7c-jJ7pPIuWUcSPXbMx8OrxTr-9WaoxGccUZUz8j29h5ZeSMhglvq_drtF6tBHagePYLe0KOUMf-qX6nEH8XI4eXJgrcw_nTkvsmJHk0"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary tracking-tight">UDCP</h1>
+<p class="font-body-sm text-body-sm text-text-slate-muted">City Infrastructure</p>
+</div>
+</div>
+<!-- CTA -->
+<button class="mb-unit-lg w-full bg-primary-container text-white font-label-md py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+            New Project
+        </button>
+<!-- Main Nav -->
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-md">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md">GIS Map</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">error_outline</span>
+<span class="font-label-md">Conflicts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-label-md">Approvals</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-md">Notifications</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary-container text-on-primary-container font-bold rounded-lg scale-[0.98] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined icon-fill">analytics</span>
+<span class="font-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md">Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</div>
+<!-- Footer Nav -->
+<div class="mt-auto space-y-1 pt-4 border-t border-border-subtle">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-slate-muted hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="hidden md:flex justify-between items-center h-16 px-gutter ml-[280px] bg-surface fixed top-0 right-0 w-[calc(100%-280px)] z-40 border-b border-border-subtle">
+<div class="flex items-center gap-4">
+<div class="font-headline-sm text-headline-sm font-bold text-primary tracking-tight">Coordination Platform</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search Integrated (On Left conceptually per JSON, moving to right for standard UI layout balance) -->
+<div class="relative focus-within:ring-2 focus-within:ring-primary/10 rounded-full transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-slate-muted">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border-none rounded-full text-body-sm focus:ring-0 focus:outline-none w-64 text-on-surface placeholder-text-slate-muted" placeholder="Search..." type="text"/>
+</div>
+<div class="h-6 w-px bg-border-subtle"></div>
+<button class="p-2 rounded-full text-text-slate-muted hover:bg-surface-container-low transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 rounded-full text-text-slate-muted hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="text-label-md text-primary hover:bg-surface-container-low px-3 py-1.5 rounded-lg transition-colors">
+                Help Center
+            </button>
+<img class="w-8 h-8 rounded-full border border-border-subtle object-cover" data-alt="A highly professional headshot of a corporate department head in a modern office setting. The subject is wearing a crisp business suit, exuding competence and authority. Soft, flattering natural light fills the scene from a nearby window, creating a bright, high-key corporate portrait with a shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1JMmrMmYRwRnI8xxCZUwmRkXibT15Klvmk1e8bgcxOKO_C5HdtOOGuNuOgFhYpBoi_UDmvvsRrxZWPNw4MR4lpbf1dwU490fHITidSDoSoRFdNsSNyLb_y9Do3Q5tS7LCsepeNaEVZP8VcwxTI8_JewLBpumWNVS5ou-MnLYG9Eo5GcWoWAJdqDZv1dLnWRmyOw8RyEbO38E9ilVy-bMIZs-_DamcrD7p7tf2GMQoW2yIEda47piK"/>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="ml-0 md:ml-[280px] pt-[72px] md:pt-[88px] px-margin-mobile md:px-margin-desktop pb-12 max-w-[1440px] mx-auto">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-text-charcoal">Analytics &amp; Insights</h2>
+<p class="font-body-md text-body-md text-text-slate-muted mt-1">Review coordination performance and strategic metrics.</p>
+</div>
+<!-- Date Selector -->
+<div class="flex items-center gap-2 bg-white border border-border-subtle rounded-lg px-4 py-2 shadow-sm hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-text-slate-muted">calendar_today</span>
+<span class="font-label-md text-text-charcoal">Oct 1, 2023 - Oct 31, 2023</span>
+<span class="material-symbols-outlined text-text-slate-muted ml-2">arrow_drop_down</span>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- 1. Project Completion Rate (Spans 4 columns on large screens) -->
+<div class="md:col-span-4 bg-surface-card rounded-xl border border-border-subtle p-unit-lg shadow-sm flex flex-col">
+<div>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-text-charcoal">Project Completion Rate</h3>
+<p class="font-body-sm text-body-sm text-text-slate-muted mt-1">Overall municipal infrastructure progress.</p>
+</div>
+<div class="flex-1 flex items-center justify-center py-8 relative">
+<!-- Donut Chart representation -->
+<div class="relative w-48 h-48 rounded-full flex items-center justify-center bg-surface-container-low" style="background: conic-gradient(#0b4f8a 78%, #e2e8f0 0);">
+<div class="absolute inset-2 bg-white rounded-full flex items-center justify-center flex-col shadow-inner">
+<span class="font-display-lg text-display-lg font-bold text-primary-container">78%</span>
+<span class="font-label-sm text-label-sm text-text-slate-muted uppercase tracking-wider mt-1">Completed</span>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-border-subtle">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary-container"></div>
+<span class="font-label-sm text-label-sm text-text-slate-muted">Completed</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-border-subtle"></div>
+<span class="font-label-sm text-label-sm text-text-slate-muted">Pending</span>
+</div>
+</div>
+</div>
+<!-- 2. Conflict Trend Over Time (Spans 8 columns) -->
+<div class="md:col-span-8 bg-surface-card rounded-xl border border-border-subtle p-unit-lg shadow-sm flex flex-col">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-text-charcoal">Conflict Trend Over Time</h3>
+<p class="font-body-sm text-body-sm text-text-slate-muted mt-1">Reductions in spatial and temporal overlaps.</p>
+</div>
+<div class="flex gap-2">
+<span class="px-2.5 py-1 rounded bg-success/10 text-success font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_down</span>
+                            12% v last month
+                        </span>
+</div>
+</div>
+<div class="flex-1 relative min-h-[240px]">
+<!-- Simulated Line Chart -->
+<div class="absolute inset-0 flex items-end">
+<div class="w-full h-full relative" style="background: linear-gradient(to top, rgba(11, 79, 138, 0.1) 0%, rgba(11, 79, 138, 0) 100%); clip-path: polygon(0 100%, 0 60%, 20% 50%, 40% 70%, 60% 40%, 80% 30%, 100% 20%, 100% 100%);"></div>
+<!-- Line representation -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,60 L20,50 L40,70 L60,40 L80,30 L100,20" fill="none" stroke="#0b4f8a" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<!-- Data points -->
+<circle cx="0" cy="60" fill="#ffffff" r="4" stroke="#0b4f8a" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
+<circle cx="20" cy="50" fill="#ffffff" r="4" stroke="#0b4f8a" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
+<circle cx="40" cy="70" fill="#ffffff" r="4" stroke="#0b4f8a" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
+<circle cx="60" cy="40" fill="#ffffff" r="4" stroke="#0b4f8a" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
+<circle cx="80" cy="30" fill="#ffffff" r="4" stroke="#0b4f8a" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
+<circle cx="100" cy="20" fill="#ffffff" r="4" stroke="#0b4f8a" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
+</svg>
+</div>
+<!-- Axes -->
+<div class="absolute bottom-0 w-full flex justify-between text-label-sm text-text-slate-muted border-t border-border-subtle pt-2">
+<span>May</span>
+<span>Jun</span>
+<span>Jul</span>
+<span>Aug</span>
+<span>Sep</span>
+<span>Oct</span>
+</div>
+<div class="absolute left-0 h-[calc(100%-30px)] flex flex-col justify-between text-label-sm text-text-slate-muted pr-2 text-right">
+<span>50</span>
+<span>25</span>
+<span>0</span>
+</div>
+<!-- Grid lines -->
+<div class="absolute inset-0 flex flex-col justify-between pb-8 pointer-events-none">
+<div class="w-full h-px bg-border-subtle/50"></div>
+<div class="w-full h-px bg-border-subtle/50"></div>
+<div class="w-full h-px bg-border-subtle/50"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UDCP - Unified Department Coordination Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "dark-bg-deep": "#0F172A",
+                        "text-charcoal": "#1E293B",
+                        "border-subtle": "#E2E8F0",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "secondary-fixed-dim": "#a5c8ff",
+                        "on-primary-fixed-variant": "#004881",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a2c9ff",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d4e3ff",
+                        "outline": "#727781",
+                        "on-background": "#191c1e",
+                        "surface-bright": "#f7f9fb",
+                        "primary-container": "#0b4f8a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#001c3a",
+                        "outline-variant": "#c2c7d1",
+                        "on-secondary-container": "#003e75",
+                        "on-surface-variant": "#424750",
+                        "primary": "#003866",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "conflict": "#DC2626",
+                        "success": "#059669",
+                        "dark-surface-card": "#1E293B",
+                        "surface": "#f7f9fb",
+                        "tertiary-container": "#7b3c00",
+                        "primary-fixed-dim": "#a2c9ff",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary": "#592a00",
+                        "on-primary-fixed": "#001c38",
+                        "primary-fixed": "#d3e4ff",
+                        "in-progress": "#2563EB",
+                        "tertiary-fixed": "#ffdcc6",
+                        "pending": "#D97706",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface": "#191c1e",
+                        "surface-card": "#FFFFFF",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-container": "#ffab6f",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-secondary-fixed-variant": "#004785",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary-fixed": "#301400",
+                        "on-primary-container": "#94c2ff",
+                        "tertiary-fixed-dim": "#ffb785",
+                        "inverse-surface": "#2d3133",
+                        "secondary": "#005fae",
+                        "surface-container": "#eceef0",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#6babff",
+                        "surface-tint": "#27609c",
+                        "text-slate-muted": "#64748B",
+                        "error-container": "#ffdad6",
+                        "background": "#f7f9fb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit-sm": "8px",
+                        "unit-xs": "4px",
+                        "grid-columns": "12",
+                        "unit-xl": "48px",
+                        "margin-desktop": "48px",
+                        "unit-md": "16px",
+                        "gutter": "24px",
+                        "margin-tablet": "32px",
+                        "unit-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        body { background-color: #F8FAFC; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface bg-background">
+<!-- TopNavBar -->
+<nav class="bg-surface border-b border-border-subtle fixed top-0 w-full z-50 shadow-sm transition-opacity">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 w-full max-w-[1440px] mx-auto">
+<div class="flex items-center gap-4">
+<img alt="UDCP Logo" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtE3U2Kc-AR4DM1wQ26cBijySK_875MU2vfGhqkPTdatu6LgNAOjVTv5lJFzHaS-a_ywmKLXaTAB71fUTF8E33HKQvF0E_zv8T9pgvPaE1ArPCmiKpeW1IAX7mx0G9CE3bFv4eGFdY-oXaawJovwx4agCx-yz4E7cjCxSDVh2dVNUFb3_QYz5WA63pQVc8ctamsjW-TDRLC090s6Pb3CNavzA0HZEQZEUNH8tEWOqQtwBQ-0Wu25stKBSQ"/>
+<span class="font-headline-md text-headline-md font-bold text-primary hidden md:block">UDCP</span>
+</div>
+<div class="hidden md:flex gap-8 items-center h-full">
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors flex items-center h-full border-b-2 border-transparent" href="#">Solution</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors flex items-center h-full border-b-2 border-transparent" href="#">How It Works</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors flex items-center h-full border-b-2 border-transparent" href="#">For Departments</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors flex items-center h-full border-b-2 border-transparent" href="#">Citizen Portal</a>
+</div>
+<div class="flex gap-4 items-center">
+<button class="hidden md:flex items-center justify-center h-10 px-4 rounded font-label-md text-primary-container border border-primary-container hover:bg-surface-container-low transition-colors bg-transparent">Log In</button>
+<button class="flex items-center justify-center h-10 px-6 rounded font-label-md text-on-primary bg-primary-container hover:bg-primary transition-colors border border-transparent shadow-sm">Get Started</button>
+</div>
+</div>
+</nav>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-24">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-6 flex flex-col gap-6">
+<h1 class="font-display-lg text-display-lg text-text-charcoal text-balance">One City. One Platform. One Plan.</h1>
+<p class="font-body-lg text-body-lg text-text-slate-muted max-w-lg">
+                        Eliminate duplicate excavation and inter-departmental conflict via real-time coordination. Unified visibility for smarter, faster civic infrastructure management.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4 mt-4">
+<button class="flex items-center justify-center h-12 px-6 rounded-lg font-label-md text-on-primary bg-primary-container hover:bg-primary transition-colors shadow-sm">Login to Portal</button>
+<button class="flex items-center justify-center h-12 px-6 rounded-lg font-label-md text-primary-container border border-primary-container hover:bg-surface-container-low transition-colors bg-transparent">View Citizen Portal</button>
+</div>
+</div>
+<div class="md:col-span-6 mt-8 md:mt-0 flex justify-center lg:justify-end">
+<img alt="UDCP Hero Map Illustration" class="w-full max-w-lg object-contain rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-border-subtle bg-white" src="https://lh3.googleusercontent.com/aida/AP1WRLsSovemGf2n5MeG9sdGbFTjA31bsKZDzqXW1lAyacrwisx6ut7hZUaxTCJixq12rhVUJUPSSOL0MhJpfQJTPw1pUQvLkA7u0k1OKr8p7YSXUZZfSasfplC4PwRpVCOOsZONvdnEGHx8HFhyGZgrxxRlh7UHniyWJnZpQ9gW7Tf6t7zP5E3ol22g4ZqSBKQbI1sGJB4KGFrJLQzCuUII0YEn3jGSu41BPVaqGSSEO-U9vECDdWbjnLJxK1U"/>
+</div>
+</div>
+</section>
+<!-- Feature Strip -->
+<section class="bg-white border-y border-border-subtle w-full py-16">
+<div class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="flex flex-col gap-3 p-6 rounded-xl border border-border-subtle bg-surface-card shadow-[0px_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_24px_rgba(0,0,0,0.1)] transition-shadow">
+<div class="w-10 h-10 rounded bg-primary-fixed-dim/20 flex items-center justify-center text-primary-container mb-2">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-charcoal">Centralized Project Management</h3>
+<p class="font-body-sm text-body-sm text-text-slate-muted">Unified view for all infrastructure works across departments.</p>
+</div>
+<div class="flex flex-col gap-3 p-6 rounded-xl border border-border-subtle bg-surface-card shadow-[0px_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_24px_rgba(0,0,0,0.1)] transition-shadow">
+<div class="w-10 h-10 rounded bg-conflict/10 flex items-center justify-center text-conflict mb-2">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-charcoal">GIS-Based Conflict Detection</h3>
+<p class="font-body-sm text-body-sm text-text-slate-muted">Automatic identification of overlapping project schedules.</p>
+</div>
+<div class="flex flex-col gap-3 p-6 rounded-xl border border-border-subtle bg-surface-card shadow-[0px_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_24px_rgba(0,0,0,0.1)] transition-shadow">
+<div class="w-10 h-10 rounded bg-success/10 flex items-center justify-center text-success mb-2">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-charcoal">Structured Approval Workflows</h3>
+<p class="font-body-sm text-body-sm text-text-slate-muted">Streamlined multi-departmental sign-offs and reviews.</p>
+</div>
+<div class="flex flex-col gap-3 p-6 rounded-xl border border-border-subtle bg-surface-card shadow-[0px_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_24px_rgba(0,0,0,0.1)] transition-shadow">
+<div class="w-10 h-10 rounded bg-pending/10 flex items-center justify-center text-pending mb-2">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-text-charcoal">Real-Time Notifications</h3>
+<p class="font-body-sm text-body-sm text-text-slate-muted">Immediate alerts for planning updates and critical conflicts.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works -->
+<section class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-20">
+<div class="text-center mb-12">
+<h2 class="font-headline-lg text-headline-lg text-text-charcoal">How It Works</h2>
+</div>
+<div class="relative max-w-4xl mx-auto hidden md:block">
+<!-- Connecting Line -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-border-subtle -translate-y-1/2 z-0"></div>
+<div class="flex justify-between relative z-10">
+<div class="flex flex-col items-center gap-3 bg-background px-4">
+<div class="w-12 h-12 rounded-full border-2 border-primary-container bg-white flex items-center justify-center text-primary-container font-label-md">1</div>
+<span class="font-label-md text-text-charcoal">Submit</span>
+</div>
+<div class="flex flex-col items-center gap-3 bg-background px-4">
+<div class="w-12 h-12 rounded-full border-2 border-primary-container bg-white flex items-center justify-center text-primary-container font-label-md">2</div>
+<span class="font-label-md text-text-charcoal text-center">Analyze<br/>Conflicts</span>
+</div>
+<div class="flex flex-col items-center gap-3 bg-background px-4">
+<div class="w-12 h-12 rounded-full border-2 border-primary-container bg-white flex items-center justify-center text-primary-container font-label-md">3</div>
+<span class="font-label-md text-text-charcoal text-center">Notify<br/>Departments</span>
+</div>
+<div class="flex flex-col items-center gap-3 bg-background px-4">
+<div class="w-12 h-12 rounded-full border-2 border-primary-container bg-white flex items-center justify-center text-primary-container font-label-md">4</div>
+<span class="font-label-md text-text-charcoal">Approve</span>
+</div>
+<div class="flex flex-col items-center gap-3 bg-background px-4">
+<div class="w-12 h-12 rounded-full border-2 border-primary-container bg-primary-container text-white flex items-center justify-center font-label-md">5</div>
+<span class="font-label-md text-text-charcoal">Execute</span>
+</div>
+</div>
+</div>
+<!-- Mobile Fallback for Flow -->
+<div class="flex flex-col gap-6 md:hidden">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 shrink-0 rounded-full border-2 border-primary-container bg-white flex items-center justify-center text-primary-container font-label-md">1</div>
+<span class="font-label-md text-text-charcoal">Submit Plan</span>
+</div>
+<div class="w-0.5 h-6 bg-border-subtle ml-5"></div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 shrink-0 rounded-full border-2 border-primary-container bg-white flex items-center justify-center text-primary-container font-label-md">2</div>
+<span class="font-label-md text-text-charcoal">Analyze Conflicts</span>
+</div>
+<div class="w-0.5 h-6 bg-border-subtle ml-5"></div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 shrink-0 rounded-full border-2 border-primary-container bg-white flex items-center justify-center text-primary-container font-label-md">3</div>
+<span class="font-label-md text-text-charcoal">Notify Departments</span>
+</div>
+<div class="w-0.5 h-6 bg-border-subtle ml-5"></div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 shrink-0 rounded-full border-2 border-primary-container bg-white flex items-center justify-center text-primary-container font-label-md">4</div>
+<span class="font-label-md text-text-charcoal">Approve Work</span>
+</div>
+<div class="w-0.5 h-6 bg-border-subtle ml-5"></div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 shrink-0 rounded-full border-2 border-primary-container bg-primary-container text-white flex items-center justify-center font-label-md">5</div>
+<span class="font-label-md text-text-charcoal">Execute Project</span>
+</div>
+</div>
+</section>
+<!-- Stats/Impact Strip -->
+<section class="bg-primary-container py-16 w-full">
+<div class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-on-primary/20 text-center">
+<div class="flex flex-col gap-2 py-4 md:py-0">
+<span class="font-display-lg text-display-lg text-on-primary">40%</span>
+<span class="font-body-md text-body-md text-inverse-primary">Fewer Duplicate Excavations</span>
+</div>
+<div class="flex flex-col gap-2 py-4 md:py-0">
+<span class="font-display-lg text-display-lg text-on-primary">10x</span>
+<span class="font-body-md text-body-md text-inverse-primary">Faster Approvals</span>
+</div>
+<div class="flex flex-col gap-2 py-4 md:py-0">
+<span class="font-display-lg text-display-lg text-on-primary">7</span>
+<span class="font-body-md text-body-md text-inverse-primary">Departments Connected</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-border-subtle w-full">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop py-unit-xl w-full max-w-[1440px] mx-auto gap-8 md:gap-0">
+<div class="flex flex-col items-center md:items-start gap-4">
+<div class="flex items-center gap-2">
+<img alt="UDCP Logo" class="h-8 object-contain mix-blend-multiply" src="https://lh3.googleusercontent.com/aida/AP1WRLtE3U2Kc-AR4DM1wQ26cBijySK_875MU2vfGhqkPTdatu6LgNAOjVTv5lJFzHaS-a_ywmKLXaTAB71fUTF8E33HKQvF0E_zv8T9pgvPaE1ArPCmiKpeW1IAX7mx0G9CE3bFv4eGFdY-oXaawJovwx4agCx-yz4E7cjCxSDVh2dVNUFb3_QYz5WA63pQVc8ctamsjW-TDRLC090s6Pb3CNavzA0HZEQZEUNH8tEWOqQtwBQ-0Wu25stKBSQ"/>
+<span class="font-headline-sm text-headline-sm font-bold text-text-charcoal">UDCP</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center md:text-left">
+                    Unified Coordination for Smarter Cities.<br/>
+                    © 2024 Urban Development Coordination Platform. An official government service.
+                </p>
+</div>
+<div class="flex flex-wrap justify-center gap-6 font-body-sm text-body-sm text-on-surface-variant">
+<a class="hover:underline decoration-primary hover:text-primary transition-colors" href="#">About</a>
+<a class="hover:underline decoration-primary hover:text-primary transition-colors" href="#">Departments</a>
+<a class="hover:underline decoration-primary hover:text-primary transition-colors" href="#">Citizen Portal</a>
+<a class="hover:underline decoration-primary hover:text-primary transition-colors" href="#">Contact</a>
+<a class="hover:underline decoration-primary hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:underline decoration-primary hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</body></html>

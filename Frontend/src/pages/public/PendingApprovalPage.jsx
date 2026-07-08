@@ -1,0 +1,1 @@
+export default function PendingApprovalPage() { return <div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="text-center"><h1 className="text-2xl font-bold text-slate-800 mb-2">Account Pending Approval</h1><p className="text-slate-500">Your account is being reviewed by an Administrator. Please check back soon.</p></div></div>; }
