@@ -3,11 +3,8 @@ import { motion } from 'framer-motion';
 import {
   LayoutDashboard, Map, CheckSquare, Bell,
   ArrowRight, Building2, Shield, ChevronRight,
-  Sun, Moon,
 } from 'lucide-react';
 import { ROUTES } from '../../routes/routeConfig.js';
-import { useContext } from 'react';
-import { ThemeContext } from '../../context/ThemeContext.jsx';
 
 // ── GIS Map Illustration (SVG, matches the reference) ──────────────────────
 function GISIllustration() {
@@ -109,8 +106,6 @@ const item = {
 };
 
 export default function LandingPage() {
-  const { isDark, toggle: toggleTheme } = useContext(ThemeContext);
-
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900 font-sans">
       {/* ── Navbar ── */}
@@ -142,13 +137,6 @@ export default function LandingPage() {
 
           {/* CTA */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg text-slate-600 dark:text-slate-400 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              aria-label="Toggle dark mode"
-            >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
             <Link
               to={ROUTES.LOGIN}
               className="px-4 py-2 rounded-lg border border-primary-700 text-primary-700 text-sm font-semibold hover:bg-primary-50 transition-colors"
