@@ -71,9 +71,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-slate-50">
+    <div className="min-h-screen flex bg-slate-50 dark:bg-slate-800">
       {/* ── Left panel ─────────────────────────────────────────────────────── */}
-      <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 bg-slate-50 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 bg-slate-50 dark:bg-slate-800 relative overflow-hidden">
         <FloatingDots />
 
         {/* Logo */}
@@ -87,7 +87,7 @@ export default function LoginPage() {
           <h1 className="text-5xl font-black text-primary-800 leading-tight mb-4">
             Unified<br />Coordination<br />for Smarter<br />Cities
           </h1>
-          <p className="text-slate-500 text-base leading-relaxed max-w-xs">
+          <p className="text-slate-500 dark:text-slate-400 text-base leading-relaxed max-w-xs">
             Empowering municipal operators with real-time insights and synchronized workflows.
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function LoginPage() {
           className="w-full max-w-md"
         >
           {/* Login Card */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-modal p-8 mb-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-modal p-8 mb-4">
             {/* Icon */}
             <div className="flex justify-center mb-5">
               <div className="w-12 h-12 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center">
@@ -116,8 +116,8 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 text-center mb-1">Welcome back</h2>
-            <p className="text-slate-500 text-sm text-center mb-6">Sign in to your department account</p>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 text-center mb-1">Welcome back</h2>
+            <p className="text-slate-500 dark:text-slate-400 text-sm text-center mb-6">Sign in to your department account</p>
 
             {/* Error */}
             {error && (
@@ -134,7 +134,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="login-email">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="login-email">
                   Department Email
                 </label>
                 <div className="relative">
@@ -146,7 +146,7 @@ export default function LoginPage() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     required
-                    className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+                    className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
@@ -154,7 +154,7 @@ export default function LoginPage() {
               {/* Password */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-sm font-medium text-slate-700" htmlFor="login-password">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="login-password">
                     Password
                   </label>
                   <Link to={ROUTES.FORGOT_PASSWORD} className="text-xs text-primary-600 hover:text-primary-700 font-medium">
@@ -170,12 +170,12 @@ export default function LoginPage() {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     required
-                    className="w-full pl-9 pr-10 py-2.5 rounded-lg border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+                    className="w-full pl-9 pr-10 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPw(!showPw)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-400 transition-colors"
                   >
                     {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -199,20 +199,20 @@ export default function LoginPage() {
 
             {/* Divider */}
             <div className="flex items-center gap-3 my-5">
-              <div className="flex-1 h-px bg-slate-200" />
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-600" />
               <span className="text-xs text-slate-400">or</span>
-              <div className="flex-1 h-px bg-slate-200" />
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-600" />
             </div>
 
             {/* Links */}
             <div className="text-center space-y-2">
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-500 dark:text-slate-400">
                 New department staff?{' '}
                 <Link to={ROUTES.REGISTER} className="text-primary-600 hover:text-primary-700 font-semibold">
                   Register here
                 </Link>
               </p>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-500 dark:text-slate-400">
                 Citizen?{' '}
                 <Link to={ROUTES.CITIZEN} className="text-primary-600 hover:text-primary-700 font-semibold">
                   View the public portal
@@ -226,7 +226,7 @@ export default function LoginPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-2xl border border-slate-200 shadow-card p-5"
+            className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-card p-5"
           >
             <p className="text-xs font-bold text-slate-400 tracking-widest uppercase text-center mb-4">
               Demo Access Credentials
@@ -240,7 +240,7 @@ export default function LoginPage() {
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg border text-left transition-all text-sm ${
                     selectedCred === cred.role
                       ? 'border-primary-300 bg-primary-50 text-primary-700'
-                      : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700'
+                      : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   <div className="min-w-0">

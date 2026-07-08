@@ -117,17 +117,17 @@ export default function RegisterPage() {
   // ── Pending approval confirmation screen ─────────────────────────────────
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-800 p-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white rounded-2xl border border-slate-200 shadow-modal p-10 max-w-md w-full text-center"
+          className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-modal p-10 max-w-md w-full text-center"
         >
           <div className="w-16 h-16 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center mx-auto mb-5">
             <CheckCircle className="w-8 h-8 text-amber-500" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Registration Submitted</h2>
-          <p className="text-slate-500 mb-6 leading-relaxed">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Registration Submitted</h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
             Your account request has been submitted. An Administrator will review and approve your access.
             You'll be able to sign in once approved.
           </p>
@@ -146,25 +146,25 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-slate-100">
+    <div className="min-h-screen flex bg-slate-100 dark:bg-slate-700">
       {/* ── Left panel ──────────────────────────────────────────────────────── */}
-      <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 relative overflow-hidden bg-slate-100">
+      <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 relative overflow-hidden bg-slate-100 dark:bg-slate-700">
         <GISBackground />
 
         {/* Logo */}
         <div className="relative flex items-center gap-2 z-10">
-          <div className="w-9 h-9 rounded-lg border border-slate-200 bg-white flex items-center justify-center shadow-sm">
+          <div className="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center shadow-sm">
             <Building2 className="w-4 h-4 text-primary-700" />
           </div>
-          <span className="font-bold text-slate-900">UDCP</span>
+          <span className="font-bold text-slate-900 dark:text-slate-100">UDCP</span>
         </div>
 
         {/* Bottom text */}
         <div className="relative z-10">
-          <h1 className="text-4xl font-black text-slate-900 leading-tight mb-3">
+          <h1 className="text-4xl font-black text-slate-900 dark:text-slate-100 leading-tight mb-3">
             Unified Department<br />Coordination Platform
           </h1>
-          <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
+          <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-xs">
             Connecting civic departments and citizens for streamlined urban operations and planning.
           </p>
         </div>
@@ -179,11 +179,11 @@ export default function RegisterPage() {
           className="w-full max-w-lg"
         >
           {/* Card */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-modal p-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">Create an Account</h2>
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-modal p-8">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">Create an Account</h2>
 
             {/* ── Tabs ── */}
-            <div className="flex bg-slate-100 rounded-xl p-1 mb-6">
+            <div className="flex bg-slate-100 dark:bg-slate-700 rounded-xl p-1 mb-6">
               {[
                 { key: 'citizen', label: 'Citizen' },
                 { key: 'staff',   label: 'Department Staff' },
@@ -194,8 +194,8 @@ export default function RegisterPage() {
                   onClick={() => { setTab(t.key); setError(''); }}
                   className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
                     tab === t.key
-                      ? 'bg-white text-slate-900 shadow-sm'
-                      : 'text-slate-500 hover:text-slate-700'
+                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 dark:text-slate-300'
                   }`}
                 >
                   {t.label}
@@ -218,7 +218,7 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Full Name */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="reg-name">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="reg-name">
                   Full Name
                 </label>
                 <div className="relative">
@@ -230,14 +230,14 @@ export default function RegisterPage() {
                     value={name}
                     onChange={e => setName(e.target.value)}
                     required
-                    className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* Email */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="reg-email">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="reg-email">
                   Email Address
                 </label>
                 <div className="relative">
@@ -249,7 +249,7 @@ export default function RegisterPage() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     required
-                    className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -266,7 +266,7 @@ export default function RegisterPage() {
                   >
                     {/* Role */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="reg-role">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="reg-role">
                         Role
                       </label>
                       <div className="relative">
@@ -274,7 +274,7 @@ export default function RegisterPage() {
                           id="reg-role"
                           value={role}
                           onChange={e => setRole(e.target.value)}
-                          className="w-full appearance-none pl-3 pr-9 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent bg-white"
+                          className="w-full appearance-none pl-3 pr-9 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent bg-white dark:bg-slate-900"
                         >
                           {STAFF_ROLES.map(r => (
                             <option key={r.value} value={r.value}>{r.label}</option>
@@ -286,7 +286,7 @@ export default function RegisterPage() {
 
                     {/* Department */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="reg-dept">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="reg-dept">
                         Department
                       </label>
                       <div className="relative">
@@ -294,7 +294,7 @@ export default function RegisterPage() {
                           id="reg-dept"
                           value={department}
                           onChange={e => setDepartment(e.target.value)}
-                          className="w-full appearance-none pl-3 pr-9 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent bg-white"
+                          className="w-full appearance-none pl-3 pr-9 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent bg-white dark:bg-slate-900"
                         >
                           <option value="">Select department…</option>
                           {DEPARTMENT_LIST.map(d => (
@@ -310,7 +310,7 @@ export default function RegisterPage() {
 
               {/* Password */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="reg-pw">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="reg-pw">
                   Password
                 </label>
                 <div className="relative">
@@ -322,10 +322,10 @@ export default function RegisterPage() {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     required
-                    className="w-full pl-9 pr-10 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="w-full pl-9 pr-10 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                   />
                   <button type="button" onClick={() => setShowPw(!showPw)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-400">
                     {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
@@ -333,7 +333,7 @@ export default function RegisterPage() {
 
               {/* Confirm Password */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="reg-confirm-pw">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="reg-confirm-pw">
                   Confirm Password
                 </label>
                 <div className="relative">
@@ -345,19 +345,19 @@ export default function RegisterPage() {
                     value={confirmPw}
                     onChange={e => setConfirmPw(e.target.value)}
                     required
-                    className="w-full pl-9 pr-10 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="w-full pl-9 pr-10 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                   />
                   <button type="button" onClick={() => setShowConfirmPw(!showConfirmPw)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-400">
                     {showConfirmPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
 
               {/* Info box */}
-              <div className="flex items-start gap-2.5 bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-3">
+              <div className="flex items-start gap-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3.5 py-3">
                 <Info className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
-                <p className="text-xs text-slate-500 leading-relaxed">
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                   {tab === 'citizen'
                     ? "You'll get instant access to view ongoing projects and submit feedback."
                     : 'Department Staff accounts require Admin approval before access is granted. You will receive a confirmation once approved.'}
@@ -381,10 +381,10 @@ export default function RegisterPage() {
 
             {/* Divider + sign in link */}
             <div className="flex items-center gap-3 my-5">
-              <div className="flex-1 h-px bg-slate-200" />
-              <div className="flex-1 h-px bg-slate-200" />
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-600" />
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-600" />
             </div>
-            <p className="text-center text-sm text-slate-500">
+            <p className="text-center text-sm text-slate-500 dark:text-slate-400">
               Already have an account?{' '}
               <Link to={ROUTES.LOGIN} className="text-primary-600 hover:text-primary-700 font-semibold">
                 Sign in

@@ -70,7 +70,7 @@ export default function Sidebar({ collapsed = false }) {
                   'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 cursor-pointer select-none group relative',
                   isActive
                     ? 'bg-primary-600 text-white'
-                    : 'text-slate-400 hover:bg-white/10 hover:text-white',
+                    : 'text-slate-400 hover:bg-white dark:bg-slate-900/10 hover:text-white',
                 )
               }
             >
@@ -78,16 +78,16 @@ export default function Sidebar({ collapsed = false }) {
                 <>
                   {/* Active indicator bar */}
                   {isActive && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-white rounded-r-full" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-white dark:bg-slate-900 rounded-r-full" />
                   )}
-                  <Icon className={cn('w-4 h-4 flex-shrink-0', isActive ? 'text-white' : 'text-slate-500 group-hover:text-white')} />
+                  <Icon className={cn('w-4 h-4 flex-shrink-0', isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-white')} />
                   {!collapsed && (
                     <span className="flex-1 min-w-0 truncate">{item.label}</span>
                   )}
                   {!collapsed && badgeCount > 0 && (
                     <span className={cn(
                       'inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1 rounded-full text-xs font-bold',
-                      isActive ? 'bg-white text-primary-700' : 'bg-red-500 text-white'
+                      isActive ? 'bg-white dark:bg-slate-900 text-primary-700' : 'bg-red-500 text-white'
                     )}>
                       {badgeCount > 99 ? '99+' : badgeCount}
                     </span>
@@ -114,7 +114,7 @@ export default function Sidebar({ collapsed = false }) {
           {!collapsed && (
             <button
               onClick={logout}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors duration-150"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white dark:bg-slate-900/10 transition-colors duration-150"
               title="Sign out"
             >
               <LogOut className="w-4 h-4" />
