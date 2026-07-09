@@ -21,7 +21,6 @@ import PriorityTag from '../../components/common/PriorityTag.jsx';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 import { formatCurrencyShort } from '../../utils/formatters.js';
 import { timeAgo } from '../../utils/dateUtils.js';
-import { MOCK_PROJECTS } from '../../api/mock/data/projects.js';
 import { DEPARTMENT_SHORT, DEPARTMENT_COLORS } from '../../config/constants.js';
 
 // ── Animation variants ────────────────────────────────────────────────────────
@@ -85,8 +84,30 @@ export default function DashboardPage() {
   const { notifications } = useNotifications();
   const navigate = useNavigate();
 
-  // Derive stats from mock data
-  const projects     = MOCK_PROJECTS;
+  // State for projects data
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch projects from backend API
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const res = await axiosInstance.get(ENDPOINTS.PROJECTS, {
+          params: { limit: 1000 }
+        });
+        setProjects(res.data.data || []);
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
+
+  // Derive stats from projects data
   const activeCount  = projects.filter(p => ['IN_PROGRESS','SCHEDULED','APPROVED','DEPT_NOTIFIED'].includes(p.status)).length;
   const conflictCount = projects.filter(p => p.conflictIds && p.conflictIds.length > 0).length;
   const completedCount = projects.filter(p => p.status === 'COMPLETED').length;
@@ -167,12 +188,19 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* ── KPI Cards ──────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
-        {STAT_CARDS.map((card, i) => (
-          <StatCard key={card.label} {...card} i={i} />
-        ))}
-      </div>
+      {/* Loading State */}
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <LoadingSpinner />
+        </div>
+      ) : (
+        <>
+          {/* ── KPI Cards ──────────────────────────────────────────────────────── */}
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+            {STAT_CARDS.map((card, i) => (
+              <StatCard key={card.label} {...card} i={i} />
+            ))}
+          </div>
 
       {/* ── Charts row ─────────────────────────────────────────────────────── */}
       <div className="grid lg:grid-cols-2 gap-4">
@@ -411,6 +439,8 @@ export default function DashboardPage() {
           </div>
         </motion.div>
       </div>
+      </>
+      )}
     </div>
   );
 }

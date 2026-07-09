@@ -1,0 +1,36 @@
+services:
+  # PostgreSQL Database
+  - type: pserv
+    name: udcp-database
+    plan: free
+    region: oregon
+    databaseName: udcp_db
+    databaseUser: udcp_user
+    ipAllowList: []
+
+  # Backend Web Service
+  - type: web
+    name: udcp-backend
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    rootDir: Backend
+    buildCommand: npm install && npm run migrate && npm run seed
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_URL
+        value: https://your-frontend-url.vercel.app
+      - key: DATABASE_URL
+        fromDatabase:
+          name: udcp-database
+          property: connectionString

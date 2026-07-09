@@ -150,32 +150,110 @@ async function getProjectById(id) {
 async function createProject(data, userId) {
   const { lat, lng, address, roadName } = data.location || {};
 
-  const result = await sequelize.query(`
-    INSERT INTO projects (id, name, department, description, budget, budget_utilized, start_date, end_date, status, priority, address, road_name, progress_percent, assigned_officer, created_by_id, location, created_at, updated_at)
-    VALUES (gen_random_uuid(), :name, :department, :description, :budget, 0, :startDate, :endDate, :status, :priority, :address, :roadName, 0, :assignedOfficer, :createdById, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326), NOW(), NOW())
-    RETURNING id
-  `, {
-    replacements: {
-      name: data.name,
-      department: data.department,
-      description: data.description || '',
-      budget: data.budget || 0,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      status: data.status || 'DRAFT',
-      priority: data.priority || 'MEDIUM',
-      address: address || '',
-      roadName: roadName || '',
-      assignedOfficer: data.assignedOfficer || '',
-      createdById: userId,
-      lng: parseFloat(lng) || 0,
-      lat: parseFloat(lat) || 0,
-    },
-    type: Sequelize.QueryTypes.INSERT,
-  });
+  // Use a transaction to ensure all related records are created atomically
+  return sequelize.transaction(async (transaction) => {
+    const result = await sequelize.query(`
+      INSERT INTO projects (id, name, department, description, budget, budget_utilized, start_date, end_date, status, priority, address, road_name, progress_percent, assigned_officer, created_by_id, location, created_at, updated_at)
+      VALUES (gen_random_uuid(), :name, :department, :description, :budget, 0, :startDate, :endDate, :status, :priority, :address, :roadName, 0, :assignedOfficer, :createdById, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326), NOW(), NOW())
+      RETURNING id
+    `, {
+      replacements: {
+        name: data.name,
+        department: data.department,
+        description: data.description || '',
+        budget: data.budget || 0,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        status: data.status || 'DRAFT',
+        priority: data.priority || 'MEDIUM',
+        address: address || '',
+        roadName: roadName || '',
+        assignedOfficer: data.assignedOfficer || '',
+        createdById: userId,
+        lng: parseFloat(lng) || 0,
+        lat: parseFloat(lat) || 0,
+      },
+      type: Sequelize.QueryTypes.INSERT,
+      transaction,
+    });
 
-  const newId = result[0][0].id;
-  return getProjectById(newId);
+    const newId = result[0][0].id;
+    const status = data.status || 'DRAFT';
+
+    // Import necessary models and services
+    const { ProjectTimeline, Approval, Notification } = require('../models');
+    const notificationService = require('./notification.service');
+    const conflictDetectionService = require('./conflictDetection.service');
+
+    // Get user info for timeline
+    const User = require('../models').User;
+    const user = await User.findByPk(userId, { transaction });
+    const actorName = user ? user.name : 'Unknown User';
+
+    // 1. Create initial timeline entry
+    await ProjectTimeline.create({
+      project_id: newId,
+      stage: status,
+      actor: actorName,
+      action: 'Project created',
+      comment: null,
+      changed_by_id: userId,
+    }, { transaction });
+
+    // 2. If status is SUBMITTED or beyond, create approval record
+    const submittableStatuses = ['SUBMITTED', 'CONFLICT_ANALYSIS', 'DEPT_NOTIFIED', 'UNDER_REVIEW', 'APPROVED', 'REJECTED'];
+    if (submittableStatuses.includes(status)) {
+      await Approval.create({
+        project_id: newId,
+        status: status === 'APPROVED' ? 'APPROVED' : (status === 'REJECTED' ? 'REJECTED' : 'PENDING'),
+        submitted_by: userId,
+        submitted_at: new Date(),
+      }, { transaction });
+    }
+
+    // 3. Create notification for project submission
+    if (status === 'SUBMITTED' || submittableStatuses.includes(status)) {
+      await Notification.create({
+        type: 'PROJECT_SUBMITTED',
+        title: `New Project Registered: ${data.name}`,
+        message: `A new project "${data.name}" has been submitted for review by ${data.department}.`,
+        related_project_id: newId,
+        recipient_roles: ['admin', 'approver'],
+        is_read: false,
+      }, { transaction });
+    }
+
+    // 4. Run conflict detection if project has location and is submitted
+    if (lat && lng && (status === 'SUBMITTED' || status === 'CONFLICT_ANALYSIS')) {
+      try {
+        const conflicts = await conflictDetectionService.detectConflicts(newId);
+        if (conflicts.length > 0) {
+          await conflictDetectionService.saveConflicts(conflicts, transaction);
+          
+          // Create conflict notification
+          for (const conflict of conflicts) {
+            await Notification.create({
+              type: 'CONFLICT_DETECTED',
+              title: `Conflict Detected: ${data.name}`,
+              message: `Project "${data.name}" has a ${conflict.riskLevel} risk conflict. Conflict score: ${conflict.conflictScore}/100.`,
+              related_project_id: newId,
+              related_conflict_id: conflict.id,
+              recipient_roles: ['admin', 'approver', 'department_planner'],
+              is_read: false,
+            }, { transaction });
+          }
+        }
+      } catch (err) {
+        console.error('Conflict detection error (non-fatal):', err.message);
+      }
+    }
+
+    // Transaction will commit here, then we can read the project
+    return newId;
+  }).then(async (projectId) => {
+    // After transaction commits, fetch and return the complete project
+    return getProjectById(projectId);
+  });
 }
 
 /**

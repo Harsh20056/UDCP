@@ -40,6 +40,7 @@ export default function CreateProjectPage() {
         priority: data.priority,
         startDate: data.startDate,
         endDate: data.endDate,
+        status: 'SUBMITTED', // Auto-submit new projects for review
         location: {
           lat: data.lat,
           lng: data.lng,

@@ -1,8 +1,8 @@
 # UDCP Backend - Demo Credentials
 
 ## Server Information
-- **Base URL**: http://localhost:5001
-- **API Base**: http://localhost:5001/api
+- **Base URL**: http://localhost:5000
+- **API Base**: http://localhost:5000/api
 - **Database**: PostgreSQL with PostGIS 3.6
 - **Status**: ✅ Running
 
@@ -82,7 +82,7 @@ These accounts need admin approval before they can login:
 
 ```bash
 # Admin Login
-curl -X POST http://localhost:5001/api/auth/login \
+curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "admin@udcp.gov",
@@ -90,7 +90,7 @@ curl -X POST http://localhost:5001/api/auth/login \
   }'
 
 # Department Planner Login
-curl -X POST http://localhost:5001/api/auth/login \
+curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "planner@udcp.gov",
@@ -98,7 +98,7 @@ curl -X POST http://localhost:5001/api/auth/login \
   }'
 
 # Citizen Login
-curl -X POST http://localhost:5001/api/auth/login \
+curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "citizen@udcp.gov",
@@ -110,7 +110,7 @@ curl -X POST http://localhost:5001/api/auth/login \
 
 **Request**: 
 ```
-POST http://localhost:5001/api/auth/login
+POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
@@ -146,7 +146,7 @@ Authorization: Bearer <your_jwt_token_here>
 
 Example:
 ```bash
-curl -X GET http://localhost:5001/api/auth/me \
+curl -X GET http://localhost:5000/api/auth/me \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR..."
 ```
 
