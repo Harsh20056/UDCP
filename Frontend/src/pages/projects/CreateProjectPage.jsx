@@ -31,17 +31,28 @@ export default function CreateProjectPage() {
     setSubmitting(true);
     setError(null);
     try {
-      // transform lat/lng back to coordinates array
+      // Transform data to match backend API format
       const payload = {
-        ...data,
-        coordinates: [data.lat, data.lng]
+        name: data.name,
+        description: data.description,
+        department: data.department,
+        budget: data.budget,
+        priority: data.priority,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        location: {
+          lat: data.lat,
+          lng: data.lng,
+          address: data.locationName,
+          roadName: data.locationName, // Using locationName for both address and roadName
+        }
       };
       
       const res = await axiosInstance.post(ENDPOINTS.PROJECTS, payload);
       const newProject = res.data;
       navigate(ROUTES.PROJECT_DETAILS(newProject.id));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create project');
+      setError(err.response?.data?.error?.message || err.response?.data?.message || 'Failed to create project');
       setSubmitting(false);
     }
   };

@@ -1,6 +1,7 @@
-import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import axiosInstance from '../api/axiosInstance.js';
 import { ENDPOINTS } from '../api/endpoints.js';
+import { AuthContext } from './AuthContext.jsx';
 
 export const NotificationContext = createContext(null);
 
@@ -8,6 +9,7 @@ export function NotificationProvider({ children }) {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
   const intervalRef = useRef(null);
+  const { isAuthenticated } = useContext(AuthContext);
 
   const fetchNotifications = useCallback(async () => {
     try {
@@ -21,12 +23,31 @@ export function NotificationProvider({ children }) {
     }
   }, []);
 
-  // Initial fetch + simulated push every 20s
+  // Initial fetch + simulated push every 20s (only when authenticated)
   useEffect(() => {
+    // Only poll when user is authenticated
+    if (!isAuthenticated) {
+      // Clear any existing interval
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      // Clear notifications when logged out
+      setNotifications([]);
+      return;
+    }
+
+    // User is authenticated, start polling
     fetchNotifications();
     intervalRef.current = setInterval(fetchNotifications, 20000);
-    return () => clearInterval(intervalRef.current);
-  }, [fetchNotifications]);
+    
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [isAuthenticated, fetchNotifications]);
 
   const markAsRead = useCallback(async (id) => {
     try {

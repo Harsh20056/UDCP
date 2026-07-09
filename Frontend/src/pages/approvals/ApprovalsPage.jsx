@@ -74,7 +74,7 @@ export default function ApprovalsPage() {
             currentStage: 'APPROVED',
             comment,
             history: [
-              ...a.history,
+              ...(Array.isArray(a.history) ? a.history : []),
               { stage: 'APPROVED', actor: user?.name || 'Approver', action: 'Approved', timestamp, comment }
             ]
           };
@@ -117,7 +117,7 @@ export default function ApprovalsPage() {
             currentStage: 'REJECTED',
             comment,
             history: [
-              ...a.history,
+              ...(Array.isArray(a.history) ? a.history : []),
               { stage: 'REJECTED', actor: user?.name || 'Approver', action: 'Rejected', timestamp, comment }
             ]
           };
@@ -147,7 +147,7 @@ export default function ApprovalsPage() {
             currentStage: 'UNDER_REVIEW', // stay under review
             comment: 'Escalated to Board for high-level spatial coordination.',
             history: [
-              ...a.history,
+              ...(Array.isArray(a.history) ? a.history : []),
               { stage: 'UNDER_REVIEW', actor: user?.name || 'Approver', action: 'Escalated to Board', timestamp, comment: 'Escalated to Board due to unresolved conflicts.' }
             ]
           };

@@ -33,9 +33,11 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Clear session and redirect to login
+      // Clear session and redirect to login (only if not already on login page)
       localStorage.removeItem('udcp_session');
-      window.location.href = '/login';
+      if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   },
