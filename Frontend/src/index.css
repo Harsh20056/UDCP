@@ -310,3 +310,31 @@
 .step-connector.active {
   @apply bg-primary-600;
 }
+
+/* ─── Indian Flag / Theme custom styles ─────────────────────────────────────── */
+.tricolor-stripe {
+  background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+}
+
+.flag-saffron { color: #FF9933; }
+.flag-green { color: #138808; }
+.flag-blue { color: #000080; }
+
+.bg-saffron-glow {
+  box-shadow: 0 0 20px rgba(255, 153, 51, 0.12);
+}
+.bg-green-glow {
+  box-shadow: 0 0 20px rgba(19, 136, 8, 0.12);
+}
+
+.hover-saffron-glow:hover {
+  box-shadow: 0 0 20px rgba(255, 153, 51, 0.2);
+  border-color: rgba(255, 153, 51, 0.25);
+}
+
+.hover-green-glow:hover {
+  box-shadow: 0 0 20px rgba(19, 136, 8, 0.2);
+  border-color: rgba(19, 136, 8, 0.25);
+}
+
+
