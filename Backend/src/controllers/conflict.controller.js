@@ -19,11 +19,14 @@ async function list(req, res, next) {
       order: [['detected_at', 'DESC']],
     });
 
-    // Filter by department if provided
-    if (department) {
+    // Filter by department (user scoped department takes precedence for security)
+    const userDept = req.user && req.user.department && req.user.role !== 'admin' && req.user.role !== 'approver' ? req.user.department : null;
+    const filterDept = userDept || department;
+
+    if (filterDept) {
       conflicts = conflicts.filter(c => {
         const depts = c.departments_involved || [];
-        return depts.includes(department);
+        return depts.includes(filterDept);
       });
     }
 

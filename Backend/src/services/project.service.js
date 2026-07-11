@@ -61,12 +61,25 @@ const PROJECT_SELECT = `
 /**
  * List projects with filters, search, and pagination.
  */
-async function listProjects(query) {
+async function listProjects(query, currentUser) {
   const { department, status, priority, search, page = 1, limit = 20 } = query;
   const conditions = [];
   const replacements = {};
 
-  if (department) {
+  if (currentUser && currentUser.department && currentUser.role !== 'admin' && currentUser.role !== 'approver') {
+    conditions.push(`(
+      p.department = :userDepartment 
+      OR p.id IN (
+        SELECT pc.project_id 
+        FROM project_conflicts pc 
+        JOIN conflicts c ON c.id = pc.conflict_id 
+        WHERE c.status != 'RESOLVED' 
+          AND c.departments_involved @> :userDeptJson::jsonb
+      )
+    )`);
+    replacements.userDepartment = currentUser.department;
+    replacements.userDeptJson = JSON.stringify([currentUser.department]);
+  } else if (department) {
     conditions.push('p.department = :department');
     replacements.department = department;
   }
@@ -223,8 +236,8 @@ async function createProject(data, userId) {
       }, { transaction });
     }
 
-    // 4. Run conflict detection if project has location and is submitted
-    if (lat && lng && (status === 'SUBMITTED' || status === 'CONFLICT_ANALYSIS')) {
+    // 4. Run conflict detection if project has location coordinates
+    if (lat && lng) {
       try {
         const conflicts = await conflictDetectionService.detectConflicts(newId);
         if (conflicts.length > 0) {
@@ -239,6 +252,7 @@ async function createProject(data, userId) {
               related_project_id: newId,
               related_conflict_id: conflict.id,
               recipient_roles: ['admin', 'approver', 'department_planner'],
+              recipient_departments: conflict.departmentsInvolved || [],
               is_read: false,
             }, { transaction });
           }

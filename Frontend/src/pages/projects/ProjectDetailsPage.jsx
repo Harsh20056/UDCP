@@ -46,9 +46,13 @@ export default function ProjectDetailsPage() {
           setConflicts(related);
         }
 
-        // Fetch audit logs
-        const auditRes = await axiosInstance.get(ENDPOINTS.AUDIT_LOGS, { params: { targetId: id } });
-        setAuditLogs(auditRes.data.data || []);
+        // Fetch audit logs (fail-safe for non-admin users)
+        try {
+          const auditRes = await axiosInstance.get(ENDPOINTS.AUDIT_LOGS, { params: { targetId: id } });
+          setAuditLogs(auditRes.data.data || []);
+        } catch (e) {
+          setAuditLogs([]);
+        }
 
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load project details');

@@ -8,6 +8,8 @@ import axiosInstance from '../../api/axiosInstance.js';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 import { timeAgo } from '../../utils/dateUtils.js';
 
+import { useAuth } from '../../hooks/useAuth.js';
+
 // Icons configuration mapping
 const NOTIF_CONFIG = {
   CONFLICT_DETECTED: { icon: AlertTriangle, bg: 'bg-red-50 dark:bg-red-950/20', text: 'text-red-600 dark:text-red-400' },
@@ -22,9 +24,10 @@ export default function NotificationsPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
+  const { user } = useAuth();
   const { 
     notifications, 
-    unreadCount, 
+    unreadCount: rawUnreadCount, 
     loading: ctxLoading, 
     markAsRead, 
     markAllAsRead 
@@ -51,8 +54,15 @@ export default function NotificationsPage() {
     fetchCommsLog();
   }, []);
 
+  // Calculate from user scoped notifications dynamically
+  const scopedNotifications = user && user.department && user.role !== 'admin' && user.role !== 'approver'
+    ? notifications.filter(n => !n.recipientDepartments || n.recipientDepartments.includes(user.department))
+    : notifications;
+
+  const unreadCount = scopedNotifications.filter(n => !n.read).length;
+
   // Filter tab and search query mapping
-  const filteredNotifications = notifications.filter(n => {
+  const filteredNotifications = scopedNotifications.filter(n => {
     let matchTab = true;
     if (activeTab === 'UNREAD') matchTab = !n.read;
     else if (activeTab === 'APPROVALS') {
@@ -69,6 +79,25 @@ export default function NotificationsPage() {
       : true;
 
     return matchTab && matchSearch;
+  });
+
+  const filteredCommsLog = commsLog.filter(log => {
+    if (user && user.department && user.role !== 'admin' && user.role !== 'approver') {
+      const deptKeywords = [
+        'water', 'pwd', 'electricity', 'telecom', 'traffic', 'municipal', 'gas',
+        user.department.toLowerCase(),
+      ];
+      const toLower = log.to.toLowerCase();
+      const subjectLower = log.subject.toLowerCase();
+      const previewLower = log.preview.toLowerCase();
+      
+      return deptKeywords.some(kw => 
+        toLower.includes(kw) || 
+        subjectLower.includes(kw) || 
+        previewLower.includes(kw)
+      );
+    }
+    return true;
   });
 
   // Handle clicking a notification item
@@ -126,7 +155,7 @@ export default function NotificationsPage() {
       <div className="flex space-x-2 border-b border-slate-200 dark:border-slate-800 pb-px">
         {['ALL', 'UNREAD', 'APPROVALS', 'CONFLICTS', 'DEADLINES'].map(tab => {
           const isActive = activeTab === tab;
-          const count = notifications.filter(n => {
+          const count = scopedNotifications.filter(n => {
             if (tab === 'ALL') return true;
             if (tab === 'UNREAD') return !n.read;
             if (tab === 'APPROVALS') return ['APPROVAL_GRANTED', 'APPROVAL_REJECTED', 'PROJECT_SUBMITTED', 'PROJECT_UPDATED'].includes(n.type);
@@ -223,14 +252,14 @@ export default function NotificationsPage() {
             </div>
             
             <div className="p-2 space-y-2">
-              {commsLoading && commsLog.length === 0 ? (
+              {commsLoading && filteredCommsLog.length === 0 ? (
                 <div className="py-8 flex justify-center">
                   <LoadingSpinner size="sm" />
                 </div>
-              ) : commsLog.length === 0 ? (
+              ) : filteredCommsLog.length === 0 ? (
                 <p className="text-xs text-slate-400 p-4 text-center">No communications logs found.</p>
               ) : (
-                commsLog.map((log) => (
+                filteredCommsLog.map((log) => (
                   <div 
                     key={log.id} 
                     className="p-3 rounded-lg bg-slate-50/50 dark:bg-slate-800/20 border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850/40 transition-colors"

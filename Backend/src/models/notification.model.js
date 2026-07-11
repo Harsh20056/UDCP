@@ -41,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: [],
     },
+    recipient_departments: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+      defaultValue: [],
+    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,

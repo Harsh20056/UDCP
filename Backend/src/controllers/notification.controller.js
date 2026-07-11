@@ -10,10 +10,17 @@ async function list(req, res, next) {
       order: [['created_at', 'DESC']],
     });
 
-    // Filter by recipient_roles (notifications where user's role is in the list)
+    // Filter by recipient_roles and recipient_departments (user scoped department checks)
     const filtered = notifications.filter(n => {
       const roles = n.recipient_roles || [];
-      return roles.length === 0 || roles.includes(userRole);
+      const depts = n.recipient_departments || [];
+      
+      const roleMatch = roles.length === 0 || roles.includes(req.user.role);
+      
+      const userDept = req.user && req.user.department && req.user.role !== 'admin' && req.user.role !== 'approver' ? req.user.department : null;
+      const deptMatch = !userDept || depts.length === 0 || depts.includes(userDept);
+      
+      return roleMatch && deptMatch;
     });
 
     const data = filtered.map(n => {
@@ -27,6 +34,7 @@ async function list(req, res, next) {
         conflictId: nj.related_conflict_id,
         read: nj.is_read,
         recipientRoles: nj.recipient_roles || [],
+        recipientDepartments: nj.recipient_departments || [],
         createdAt: nj.created_at,
       };
     });

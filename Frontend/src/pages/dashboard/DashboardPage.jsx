@@ -148,8 +148,15 @@ export default function DashboardPage() {
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
     .slice(0, 5);
 
-  // Recent notifications (last 4)
-  const recentNotifs = notifications.slice(0, 4);
+  // Unique active departments
+  const uniqueDepts = new Set(filteredProjects.map(p => p.department).filter(Boolean));
+  const activeDeptsCount = uniqueDepts.size;
+
+  // Recent notifications (last 4, scoped to department)
+  const scopedNotifs = user && user.department && user.role !== 'admin' && user.role !== 'approver'
+    ? notifications.filter(n => !n.recipientDepartments || n.recipientDepartments.includes(user.department))
+    : notifications;
+  const recentNotifs = scopedNotifs.slice(0, 4);
 
   const STAT_CARDS = [
     {
@@ -165,7 +172,7 @@ export default function DashboardPage() {
     },
     {
       label: 'Pending Approvals',
-      value: 18,
+      value: reviewCount,
       icon: CheckSquare,
       iconBg: 'bg-amber-50',
       iconColor: 'text-amber-500',
@@ -187,7 +194,7 @@ export default function DashboardPage() {
     },
     {
       label: 'Departments Active',
-      value: 6,
+      value: activeDeptsCount,
       icon: Building2,
       iconBg: 'bg-primary-50',
       iconColor: 'text-primary-600',
