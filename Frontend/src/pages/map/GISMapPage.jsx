@@ -255,7 +255,7 @@ export default function GISMapPage() {
   if (error) {
     return (
       <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-red-700 dark:text-red-400 p-4 rounded-xl flex items-center gap-3">
-        <AlertCircle className="w-5 h-5" />
+        <AlertTriangle className="w-5 h-5" />
         <p>{error}</p>
         <button onClick={fetchData} className="ml-auto underline font-semibold">Retry</button>
       </div>

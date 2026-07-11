@@ -108,12 +108,16 @@ export default function DashboardPage() {
   }, []);
 
   // Derive stats from projects data
-  const activeCount  = projects.filter(p => ['IN_PROGRESS','SCHEDULED','APPROVED','DEPT_NOTIFIED'].includes(p.status)).length;
-  const conflictCount = projects.filter(p => p.conflictIds && p.conflictIds.length > 0).length;
-  const completedCount = projects.filter(p => p.status === 'COMPLETED').length;
-  const draftCount   = projects.filter(p => p.status === 'DRAFT').length;
-  const inProgressCount = projects.filter(p => p.status === 'IN_PROGRESS').length;
-  const reviewCount  = projects.filter(p => ['UNDER_REVIEW','SUBMITTED','CONFLICT_ANALYSIS'].includes(p.status)).length;
+  const filteredProjects = user && user.department && user.role !== 'admin' && user.role !== 'approver'
+    ? projects.filter(p => p.department === user.department)
+    : projects;
+
+  const activeCount  = filteredProjects.filter(p => ['IN_PROGRESS','SCHEDULED','APPROVED','DEPT_NOTIFIED'].includes(p.status)).length;
+  const conflictCount = filteredProjects.filter(p => p.conflictIds && p.conflictIds.length > 0).length;
+  const completedCount = filteredProjects.filter(p => p.status === 'COMPLETED').length;
+  const draftCount   = filteredProjects.filter(p => p.status === 'DRAFT').length;
+  const inProgressCount = filteredProjects.filter(p => p.status === 'IN_PROGRESS').length;
+  const reviewCount  = filteredProjects.filter(p => ['UNDER_REVIEW','SUBMITTED','CONFLICT_ANALYSIS'].includes(p.status)).length;
 
   // Donut data
   const donutData = [
@@ -124,15 +128,23 @@ export default function DashboardPage() {
   ];
 
   // Department activity bar data
-  const deptActivity = Object.entries(DEPARTMENT_COLORS).map(([dept, colors]) => ({
-    dept: DEPARTMENT_SHORT[dept] || dept.slice(0, 3).toUpperCase(),
-    fullName: dept,
-    count: projects.filter(p => p.department === dept).length,
-    color: colors.hex,
-  }));
+  const deptActivity = Object.entries(DEPARTMENT_COLORS)
+    .filter(([dept]) => {
+      // If user is department-scoped, only show their department in activity chart
+      if (user && user.department && user.role !== 'admin' && user.role !== 'approver') {
+        return dept === user.department;
+      }
+      return true;
+    })
+    .map(([dept, colors]) => ({
+      dept: DEPARTMENT_SHORT[dept] || dept.slice(0, 3).toUpperCase(),
+      fullName: dept,
+      count: filteredProjects.filter(p => p.department === dept).length,
+      color: colors.hex,
+    }));
 
   // Recent projects (last 5 updated)
-  const recentProjects = [...projects]
+  const recentProjects = [...filteredProjects]
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
     .slice(0, 5);
 
@@ -244,7 +256,7 @@ export default function DashboardPage() {
               </ResponsiveContainer>
               {/* Center label */}
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-3xl font-black text-slate-900 dark:text-slate-100">{projects.length}</span>
+                <span className="text-3xl font-black text-slate-900 dark:text-slate-100">{filteredProjects.length}</span>
                 <span className="text-xs text-slate-400 mt-0.5">Total</span>
               </div>
             </div>
@@ -258,7 +270,7 @@ export default function DashboardPage() {
                     <span className="text-sm text-slate-600 dark:text-slate-400">{d.name}</span>
                   </div>
                   <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-4">
-                    {projects.length > 0 ? Math.round(d.value / projects.length * 100) : 0}%
+                    {filteredProjects.length > 0 ? Math.round(d.value / filteredProjects.length * 100) : 0}%
                     <span className="text-slate-400 font-normal ml-1">({d.value})</span>
                   </span>
                 </div>

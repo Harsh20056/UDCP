@@ -67,20 +67,24 @@ export default function ProjectsListPage() {
   // Filter projects
   const filteredProjects = useMemo(() => {
     return projects.filter((p) => {
+      // If user is department planner/engineer, only show their department's projects on this list
+      if (user && user.department && user.role !== 'admin' && user.role !== 'approver') {
+        if (p.department !== user.department) return false;
+      }
       const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.id.toLowerCase().includes(search.toLowerCase());
       const matchDept = deptFilter ? p.department === deptFilter : true;
       const matchStatus = statusFilter ? p.status === statusFilter : true;
       const matchPriority = priorityFilter ? p.priority === priorityFilter : true;
       return matchSearch && matchDept && matchStatus && matchPriority;
     });
-  }, [projects, search, deptFilter, statusFilter, priorityFilter]);
+  }, [projects, search, deptFilter, statusFilter, priorityFilter, user]);
 
   // Pagination logic
   const totalItems = filteredProjects.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const currentProjects = filteredProjects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const canCreate = user && can(user.role, 'project', 'create');
+  const canCreate = user && can(user, 'project:create');
 
   return (
     <div className="space-y-6">

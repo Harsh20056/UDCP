@@ -174,6 +174,11 @@ export default function Topbar({ title = 'Operations Dashboard' }) {
               <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700 dark:border-gray-700">
                 <p className="text-sm font-medium text-slate-900 dark:text-slate-100 dark:text-white">{user?.name}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">{user?.email}</p>
+                {user?.department && (
+                  <span className="inline-flex mt-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-100 text-primary-750 dark:bg-primary-950/40 dark:text-primary-400 border border-primary-200 dark:border-primary-900/30 uppercase tracking-wider">
+                    {user.department}
+                  </span>
+                )}
               </div>
               <div className="py-1">
                 <button

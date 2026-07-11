@@ -62,8 +62,8 @@ export default function ProjectDetailsPage() {
   if (loading) return <div className="min-h-[60vh] flex items-center justify-center"><LoadingSpinner /></div>;
   if (error || !project) return <div className="p-8 text-center text-red-500">{error || 'Project not found'}</div>;
 
-  const canEdit = user && can(user.role, 'project', 'edit') && (user.role === 'admin' || user.department === project.department);
-  const canDelete = user && can(user.role, 'project', 'delete') && (user.role === 'admin' || user.department === project.department);
+  const canEdit = user && can(user, 'project:edit', { project });
+  const canDelete = user && can(user, 'project:delete', { project });
 
   // Safe coordinate array extraction fallback
   const projectCoords = project.coordinates && project.coordinates.length === 2 && !isNaN(project.coordinates[0])
