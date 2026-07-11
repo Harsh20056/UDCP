@@ -4,7 +4,11 @@ module.exports = {
   development: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
-    dialectOptions: {},
+    dialectOptions: {
+      ssl: process.env.DATABASE_URL && process.env.DATABASE_URL.includes('render.com')
+        ? { require: true, rejectUnauthorized: false }
+        : false
+    },
     logging: false,
   },
   test: {
