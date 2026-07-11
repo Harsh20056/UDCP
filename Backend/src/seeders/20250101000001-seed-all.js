@@ -12,6 +12,10 @@ const USER_IDS = {
   'usr-005': uuidv4(), // Vikram Singh — citizen
   'usr-006': uuidv4(), // Deepak Mishra — pending
   'usr-007': uuidv4(), // Kavita Joshi — pending
+  'usr-008': uuidv4(), // Amit Patel — water planner
+  'usr-009': uuidv4(), // Sanjay Sen — pwd planner
+  'usr-010': uuidv4(), // Ramesh Vyas — electricity planner
+  'usr-011': uuidv4(), // Nisha Gill — telecom planner
 };
 
 const PROJECT_IDS = {
@@ -76,6 +80,10 @@ module.exports = {
       { id: USER_IDS['usr-005'], name: 'Citizen User',   email: 'citizen@udcp.gov',  password_hash: hashCitizen, role: 'public_viewer',      department: null,                    status: 'ACTIVE',           designation: 'Citizen',                   phone: '+91-9876543214', created_at: '2025-04-20T09:00:00Z', updated_at: '2025-04-20T09:00:00Z' },
       { id: USER_IDS['usr-006'], name: 'Pending Planner', email: 'pending.planner@udcp.gov', password_hash: hashStaff, role: 'department_planner', department: 'Electricity Board', status: 'PENDING_APPROVAL', designation: 'Junior Project Planner', phone: '+91-9876543215', created_at: '2026-07-07T11:30:00Z', updated_at: '2026-07-07T11:30:00Z' },
       { id: USER_IDS['usr-007'], name: 'Pending Engineer', email: 'pending.engineer@udcp.gov', password_hash: hashStaff, role: 'field_engineer',     department: 'Telecom',           status: 'PENDING_APPROVAL', designation: 'Field Engineer I',       phone: '+91-9876543216', created_at: '2026-07-07T14:15:00Z', updated_at: '2026-07-07T14:15:00Z' },
+      { id: USER_IDS['usr-008'], name: 'Amit Patel',     email: 'planner.water@udcp.gov', password_hash: hashStaff, role: 'department_planner', department: 'Water Supply & Sewerage', status: 'ACTIVE',        designation: 'Water Department Planner',  phone: '+91-9876543217', created_at: '2025-02-01T09:00:00Z', updated_at: '2025-02-01T09:00:00Z' },
+      { id: USER_IDS['usr-009'], name: 'Sanjay Sen',     email: 'planner.pwd@udcp.gov', password_hash: hashStaff, role: 'department_planner', department: 'PWD',                     status: 'ACTIVE',        designation: 'PWD Planner',               phone: '+91-9876543218', created_at: '2025-02-01T09:00:00Z', updated_at: '2025-02-01T09:00:00Z' },
+      { id: USER_IDS['usr-010'], name: 'Ramesh Vyas',     email: 'planner.electricity@udcp.gov', password_hash: hashStaff, role: 'department_planner', department: 'Electricity Board', status: 'ACTIVE',      designation: 'Electricity Board Planner', phone: '+91-9876543219', created_at: '2025-02-01T09:00:00Z', updated_at: '2025-02-01T09:00:00Z' },
+      { id: USER_IDS['usr-011'], name: 'Nisha Gill',     email: 'planner.telecom@udcp.gov', password_hash: hashStaff, role: 'department_planner', department: 'Telecom',             status: 'ACTIVE',        designation: 'Telecom Planner',           phone: '+91-9876543220', created_at: '2025-02-01T09:00:00Z', updated_at: '2025-02-01T09:00:00Z' },
     ]);
 
     // ─── 2. PROJECTS (with PostGIS geometry) ──────────────────────────────

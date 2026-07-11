@@ -44,6 +44,71 @@ function mockToken(user) {
   return btoa(JSON.stringify({ userId: user.id, role: user.role, exp: Date.now() + 8 * 3600 * 1000 }));
 }
 
+// Helper — get current logged in user from Authorization token
+function getCurrentUser(config) {
+  const auth = config.headers?.Authorization;
+  if (!auth) return null;
+  try {
+    const payload = JSON.parse(atob(auth.replace('Bearer ', '')));
+    return users.find(u => u.id === payload.userId);
+  } catch (e) {
+    return null;
+  }
+}
+
+// Helper — Haversine distance in km
+function getDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Radius of the earth in km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+// Helper — detect conflicts for a project against all active projects of other departments
+function detectConflictsForProject(newProject, allProjects) {
+  const newLat = newProject.location?.lat;
+  const newLng = newProject.location?.lng;
+  const newStart = new Date(newProject.startDate);
+  const newEnd = new Date(newProject.endDate);
+
+  if (typeof newLat !== 'number' || typeof newLng !== 'number') return [];
+
+  const foundConflicts = [];
+
+  for (const extProj of allProjects) {
+    if (extProj.id === newProject.id) continue;
+    if (extProj.department === newProject.department) continue;
+    if (extProj.status === 'COMPLETED') continue;
+
+    // Check timeline overlap
+    const extStart = new Date(extProj.startDate);
+    const extEnd = new Date(extProj.endDate);
+    const timelineOverlap = newStart <= extEnd && extStart <= newEnd;
+    if (!timelineOverlap) continue;
+
+    // Check proximity
+    const extLat = extProj.location?.lat;
+    const extLng = extProj.location?.lng;
+    if (typeof extLat !== 'number' || typeof extLng !== 'number') continue;
+
+    const dist = getDistance(newLat, newLng, extLat, extLng);
+    if (dist < 1.5) {
+      foundConflicts.push({
+        project: extProj,
+        distance: dist,
+      });
+    }
+  }
+  return foundConflicts;
+}
+
 export function setupMockAdapter() {
   if (!ENV.USE_MOCK) return;
 
@@ -151,6 +216,20 @@ export function setupMockAdapter() {
   mock.onGet('/projects').reply((config) => {
     let filtered = [...projects];
     const params = config.params || {};
+
+    const currentUser = getCurrentUser(config);
+    if (currentUser && currentUser.department && currentUser.role !== 'admin' && currentUser.role !== 'approver') {
+      // Find all active conflicts involving this department
+      const deptConflicts = conflicts.filter(c => c.departmentsInvolved.includes(currentUser.department) && c.status !== 'RESOLVED');
+      const conflictingProjectIds = new Set();
+      deptConflicts.forEach(c => {
+        c.involvedProjectIds.forEach(pid => conflictingProjectIds.add(pid));
+      });
+      
+      // Filter projects to only return the user's department's projects OR projects involved in a conflict with them
+      filtered = filtered.filter(p => p.department === currentUser.department || conflictingProjectIds.has(p.id));
+    }
+
     if (params.department) filtered = filtered.filter(p => p.department === params.department);
     if (params.status)     filtered = filtered.filter(p => p.status === params.status);
     if (params.priority)   filtered = filtered.filter(p => p.priority === params.priority);
@@ -166,32 +245,81 @@ export function setupMockAdapter() {
   // POST /projects
   mock.onPost('/projects').reply((config) => {
     const data = JSON.parse(config.data);
-    const auth = config.headers?.Authorization;
-    let userId = 'usr-002'; // default fallback
-    if (auth) {
-      try {
-        const payload = JSON.parse(atob(auth.replace('Bearer ', '')));
-        userId = payload.userId;
-      } catch (e) {}
-    }
+    const currentUser = getCurrentUser(config);
+    const userId = currentUser ? currentUser.id : 'usr-002'; // default fallback
+    const userName = currentUser ? currentUser.name : 'Planner';
+    const userDept = currentUser ? currentUser.department : (data.department || 'PWD');
 
     const newProject = {
       id: `PRJ-${new Date().getFullYear()}-${String(projects.length + 1).padStart(3, '0')}`,
       ...data,
+      department: userDept,
       createdBy: userId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       conflictIds: [],
       progressPercent: 0,
     };
+
+    // Detect conflicts against other projects!
+    const conflictingProjects = detectConflictsForProject(newProject, projects);
+    if (conflictingProjects.length > 0) {
+      conflictingProjects.forEach(cProjInfo => {
+        const extProj = cProjInfo.project;
+        const newConflictId = `CON-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        
+        const newConflict = {
+          id: newConflictId,
+          involvedProjectIds: [newProject.id, extProj.id],
+          conflictType: 'SAME_ROAD_EXCAVATION', // default type
+          conflictScore: Math.floor(Math.random() * 30) + 65, // high risk score
+          riskLevel: 'HIGH',
+          departmentsInvolved: [newProject.department, extProj.department],
+          suggestedActions: [
+            `Coordinate timeline overlap between ${newProject.name} (${newProject.department}) and ${extProj.name} (${extProj.department}).`,
+            `Perform joint site inspection to minimize repeated road excavation.`,
+            `Align excavation schedules to avoid disrupting newly constructed components.`
+          ],
+          status: 'OPEN',
+          detectedAt: new Date().toISOString(),
+          locationDescription: `${newProject.location.address || 'Shared area'} — Proximity overlap (${cProjInfo.distance.toFixed(2)} km)`,
+          roadName: newProject.location.roadName || extProj.location.roadName || 'Multiple Roads',
+        };
+        
+        conflicts.push(newConflict);
+        
+        // Link conflict IDs to both projects
+        if (!newProject.conflictIds) newProject.conflictIds = [];
+        newProject.conflictIds.push(newConflictId);
+        
+        if (!extProj.conflictIds) extProj.conflictIds = [];
+        extProj.conflictIds.push(newConflictId);
+        
+        // Create notifications for both departments!
+        const notifMsg = `Conflict detected: Proximity overlap between ${newProject.name} (${newProject.department}) and ${extProj.name} (${extProj.department}) near ${newProject.location.address || 'project site'}.`;
+        
+        notifications.unshift({
+          id: `NOT-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+          type: 'CONFLICT_DETECTED',
+          title: `Conflict Detected: ${newProject.name} / ${extProj.name}`,
+          message: notifMsg,
+          projectId: newProject.id,
+          conflictId: newConflictId,
+          read: false,
+          recipientRoles: ['admin', 'approver', 'department_planner', 'field_engineer'],
+          recipientDepartments: [newProject.department, extProj.department],
+          createdAt: new Date().toISOString(),
+        });
+      });
+    }
+
     projects.unshift(newProject);
     
-    const user = users.find(u => u.id === userId);
-    addAuditLog(userId, user ? user.name : 'Planner', 'PROJECT_CREATED', 'project', newProject.id, `Created project: ${newProject.name}`);
+    addAuditLog(userId, userName, 'PROJECT_CREATED', 'project', newProject.id, `Created project: ${newProject.name}`);
 
-    // Add notification
+    // Add standard notification
     notifications.unshift({
-      id: `NOT-${Date.now()}`,
+      id: `NOT-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       type: 'PROJECT_SUBMITTED',
       title: `New Project: ${newProject.name}`,
       message: `A new project has been registered by ${newProject.department}.`,
@@ -199,6 +327,7 @@ export function setupMockAdapter() {
       conflictId: null,
       read: false,
       recipientRoles: ['admin', 'approver'],
+      recipientDepartments: [newProject.department],
       createdAt: new Date().toISOString(),
     });
 
@@ -249,6 +378,12 @@ export function setupMockAdapter() {
   mock.onGet('/conflicts').reply((config) => {
     let filtered = [...conflicts];
     const params = config.params || {};
+
+    const currentUser = getCurrentUser(config);
+    if (currentUser && currentUser.department && currentUser.role !== 'admin' && currentUser.role !== 'approver') {
+      filtered = filtered.filter(c => c.departmentsInvolved.includes(currentUser.department));
+    }
+
     if (params.riskLevel)   filtered = filtered.filter(c => c.riskLevel === params.riskLevel);
     if (params.department)  filtered = filtered.filter(c => c.departmentsInvolved.includes(params.department));
     if (params.status)      filtered = filtered.filter(c => c.status === params.status);
@@ -332,8 +467,18 @@ export function setupMockAdapter() {
   // ─── NOTIFICATIONS ──────────────────────────────────────────────────────
 
   // GET /notifications
-  mock.onGet('/notifications').reply(() => {
-    return [200, { data: notifications, total: notifications.length, unread: notifications.filter(n => !n.read).length }];
+  mock.onGet('/notifications').reply((config) => {
+    let filtered = [...notifications];
+
+    const currentUser = getCurrentUser(config);
+    if (currentUser && currentUser.department && currentUser.role !== 'admin' && currentUser.role !== 'approver') {
+      filtered = filtered.filter(n => 
+        !n.recipientDepartments || 
+        n.recipientDepartments.includes(currentUser.department)
+      );
+    }
+
+    return [200, { data: filtered, total: filtered.length, unread: filtered.filter(n => !n.read).length }];
   });
 
   // POST /notifications/:id/read

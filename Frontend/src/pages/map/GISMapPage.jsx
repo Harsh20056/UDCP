@@ -15,6 +15,7 @@ import { formatCurrencyShort } from '../../utils/formatters.js';
 import { formatDate } from '../../utils/dateUtils.js';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 import { cn } from '../../lib/utils.js';
+import { useAuth } from '../../hooks/useAuth.js';
 
 // Custom Map Recenter Component
 function MapRecenter({ center, zoom }) {
@@ -68,6 +69,7 @@ const createConflictIcon = (score) => {
 export default function GISMapPage() {
   const { isDark } = useContext(ThemeContext);
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Core Data State
@@ -159,9 +161,29 @@ export default function GISMapPage() {
 
   // Filter projects based on toolbar/layer controls
   const filteredProjects = useMemo(() => {
+    const userDept = user && user.department && user.role !== 'admin' && user.role !== 'approver' ? user.department : null;
+    const conflictingProjectIds = new Set();
+    
+    if (userDept) {
+      conflicts.forEach(c => {
+        if (c.departmentsInvolved && c.departmentsInvolved.includes(userDept) && c.status !== 'RESOLVED') {
+          if (c.involvedProjectIds) {
+            c.involvedProjectIds.forEach(pid => conflictingProjectIds.add(pid));
+          }
+        }
+      });
+    }
+
     return projects.filter(p => {
       const coords = getCoords(p);
       if (!coords) return false;
+
+      // Apply department restriction
+      if (userDept) {
+        if (p.department !== userDept && !conflictingProjectIds.has(p.id)) {
+          return false;
+        }
+      }
 
       const matchesSearch = searchQuery.trim()
         ? p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -174,7 +196,7 @@ export default function GISMapPage() {
 
       return matchesSearch && matchesStatus && matchesDept;
     });
-  }, [projects, searchQuery, statusFilters, deptFilters]);
+  }, [projects, conflicts, searchQuery, statusFilters, deptFilters, user]);
 
   // Active conflicts (only display conflicts that involve at least one filtered project)
   const activeConflicts = useMemo(() => {
@@ -255,7 +277,7 @@ export default function GISMapPage() {
   if (error) {
     return (
       <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-red-700 dark:text-red-400 p-4 rounded-xl flex items-center gap-3">
-        <AlertCircle className="w-5 h-5" />
+        <AlertTriangle className="w-5 h-5" />
         <p>{error}</p>
         <button onClick={fetchData} className="ml-auto underline font-semibold">Retry</button>
       </div>

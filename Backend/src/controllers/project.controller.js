@@ -3,7 +3,7 @@ const { AuditLog } = require('../models');
 
 async function list(req, res, next) {
   try {
-    const result = await projectService.listProjects(req.query);
+    const result = await projectService.listProjects(req.query, req.user);
     // Match mock: returns { data: [...], total, page, limit }
     return res.json(result);
   } catch (err) {

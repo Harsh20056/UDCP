@@ -188,6 +188,13 @@ export default function ConflictsListPage() {
 
   // Filter & Search Logic
   const filteredConflicts = conflicts.filter(c => {
+    // If user is department-scoped, only show conflicts involving their department
+    if (user && user.department && user.role !== 'admin' && user.role !== 'approver') {
+      if (!c.departmentsInvolved || !c.departmentsInvolved.includes(user.department)) {
+        return false;
+      }
+    }
+
     const matchesSearch = 
       c.locationDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -201,7 +208,7 @@ export default function ConflictsListPage() {
     return matchesSearch && matchesRisk && matchesDept && matchesStatus;
   });
 
-  const activeConflictsCount = conflicts.filter(c => c.status !== 'RESOLVED').length;
+  const activeConflictsCount = filteredConflicts.filter(c => c.status !== 'RESOLVED').length;
 
   if (loading) {
     return (
